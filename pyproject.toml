@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sbtse"
+authors = [
+    {name = "Raphael Michel", email = "mail@raphaelmichel.de"},
+]
+description = "Library and tool to access Swissbit TSE"
+readme = "README.rst"
+requires-python = ">=3.10"
+keywords = ["swissbit", "tse"]
+license = "Apache-2.0"
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "click==8.1.*",
+]
+dynamic = ["version"]
+
+[tool.setuptools.dynamic]
+version = {attr = "sbtse.__version__"}
+
+[project.scripts]
+pretix-banktool = "sbtse.main:main"
