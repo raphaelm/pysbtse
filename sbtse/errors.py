@@ -310,7 +310,7 @@ class WormErrorFromCardLast(WormError):
     pass
 
 
-def guard(rescode, allow=0):
+def _guard(rescode, allow=0):
     if rescode == allow:
         return
     if rescode == 1:

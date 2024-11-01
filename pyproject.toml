@@ -18,6 +18,7 @@ classifiers = [
 ]
 dependencies = [
     "click==8.1.*",
+    "rich==13.6.*",
 ]
 dynamic = ["version"]
 
@@ -25,4 +26,4 @@ dynamic = ["version"]
 version = {attr = "sbtse.__version__"}
 
 [project.scripts]
-pretix-banktool = "sbtse.main:main"
+sbtse = "sbtse.main:main"
