@@ -1,3 +1,4 @@
+import base64
 import contextlib
 import datetime
 import logging
@@ -89,9 +90,9 @@ class BaseWormContext:
             "hasValidTime": bool(_worm.worm_info_hasValidTime(i)),
             "hasPassedSelfTest": bool(_worm.worm_info_hasPassedSelfTest(i)),
             "isCtssInterfaceActive": bool(_worm.worm_info_isCtssInterfaceActive(i)),
-            "isExportEnabledIfCspTestFails": bool(_worm.worm_info_isExportEnabledIfCspTestFails(
-                i
-            )),
+            "isExportEnabledIfCspTestFails": bool(
+                _worm.worm_info_isExportEnabledIfCspTestFails(i)
+            ),
             "initializationState": states[_worm.worm_info_initializationState(i)],
             "hasChangedPuk": bool(_worm.worm_info_hasChangedPuk(i)),
             "hasChangedAdminPin": bool(_worm.worm_info_hasChangedAdminPin(i)),
@@ -228,7 +229,9 @@ class BaseWormContext:
         skip = 0
         while True:
             clients = _worm.WormRegisteredClients()
-            _guard(_worm.worm_tse_listRegisteredClients(self._ctx, skip, byref(clients)))
+            _guard(
+                _worm.worm_tse_listRegisteredClients(self._ctx, skip, byref(clients))
+            )
             result += [
                 c.raw.decode().rstrip("\x00")
                 for c in clients.clientIds[: clients.amount]
@@ -383,7 +386,8 @@ class BaseWormContext:
             "transactionNumber": _worm.worm_transaction_response_transactionNumber(
                 resp
             ),
-            "signature": signature,
+            "signatureBytes": signature,
+            "signatureBase64": base64.b64encode(signature).decode(),
         }
 
     def transaction_start(self, client_id: str, process_data: str, process_type: str):
@@ -586,7 +590,12 @@ class BaseWormContext:
 
             _guard(
                 _worm.worm_export_tar_filtered_transaction(
-                    self._ctx, start_transaction, end_transaction, client_id, write, c_void_p()
+                    self._ctx,
+                    start_transaction,
+                    end_transaction,
+                    client_id,
+                    write,
+                    c_void_p(),
                 )
             )
         else:
@@ -598,6 +607,9 @@ class BaseWormContext:
                 )
             else:
                 _guard(_worm.worm_export_tar(self._ctx, write, c_void_p()))
+
+    def delete_stored_data(self):
+        _guard(_worm.worm_export_deleteStoredData(self._ctx))
 
 
 class LocalWormContext(BaseWormContext):

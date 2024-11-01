@@ -21,6 +21,35 @@ The Python interface supports all features of the offline SDK except for:
 LAN TSE support is implemented but not tested.
 
 
+## Command line usage
+```
+Usage: sbtse [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --path DIRECTORY  TSE mount point
+  --url TEXT        LAN TSE URL
+  --api-key TEXT    LAN TSE API Key
+  --tse TEXT        LAN TSE serial number
+  --help            Show this message and exit.
+
+Commands:
+  config           Manipulate TSE configuration
+  delete           Delete stored data.
+  entries          Query log entries
+  export           Export stored data.
+  factory-reset    Factory reset (development TSE only)
+  firmware-update  Update firmware to version bundled with SDK.
+  info             Show info and flash health status
+  pin              Manage Admin PIN
+  puk              Manage PUK
+  selftest         Run self-test
+  setup            Run setup procedure for a fresh TSE
+  time-admin-pin   Manage Time Admin PIN
+  transaction      Create and query transactions
+```
+
+Run ``sbtse --path /mnt/tse COMMAND --help`` for the options and subcommands of the commands.
+
 ## Python library usage
 
 Example:
