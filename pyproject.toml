@@ -8,7 +8,7 @@ authors = [
     {name = "Raphael Michel", email = "mail@raphaelmichel.de"},
 ]
 description = "Library and tool to access Swissbit TSE"
-readme = "README.rst"
+readme = "README.md"
 requires-python = ">=3.10"
 keywords = ["swissbit", "tse"]
 license = {text = "Apache-2.0"}
