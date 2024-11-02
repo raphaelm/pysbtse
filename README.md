@@ -22,6 +22,7 @@ LAN TSE support is implemented but not tested.
 
 
 ## Command line usage
+
 ```
 Usage: sbtse [OPTIONS] COMMAND [ARGS]...
 
@@ -43,6 +44,7 @@ Commands:
   pin              Manage Admin PIN
   puk              Manage PUK
   selftest         Run self-test
+  serve            Run local API server
   setup            Run setup procedure for a fresh TSE
   time-admin-pin   Manage Time Admin PIN
   transaction      Create and query transactions
@@ -124,6 +126,170 @@ with worm.LANWormContext("https://10.1.1.1:9000", "api_key") as w:
     with w.lock_tse():
         w.setup(...)
     ...
+```
+
+## API Usage
+
+The API is executed as a single-thread single-process worker to avoid concurrent access to the TSE which might be problematic.
+However, this also means that the API might be slow to respond under concurrent access. This is intentional.
+
+| Method | Path | Description |
+| --- | --- | --- |
+| GET | [/info](#getinfo) | Retrieve information about the TSE |
+| GET | [/certificate](#getcertificate) | Retrieve the certificate used for signing |
+| POST | [/transactions/](#posttransactions) | Start a transcation |
+| POST | [/transactions/{transaction_id}/update](#posttransactionstransaction_idupdate) | Update a transaction |
+| POST | [/transactions/{transaction_id}/finish](#posttransactionstransaction_idfinish) | Finish a transaction |
+
+### [GET] /info
+
+Retrieve information about the TSE
+
+#### Responses
+
+- 200 Successful Response
+
+`application/json`
+
+```ts
+{
+  isDevelopmentFirmware: boolean
+  capacity: integer
+  size: integer
+  hasValidTime: boolean
+  hasPassedSelfTest: boolean
+  isCtssInterfaceActive: boolean
+  isExportEnabledIfCspTestFails: boolean
+  initializationState: string
+  hasChangedPuk: boolean
+  hasChangedAdminPin: boolean
+  timeUntilNextSelfTest: integer
+  startedTransactions: integer
+  maxStartedTransactions: integer
+  createdSignatures: integer
+  maxSignatures: integer
+  remainingSignatures: integer
+  maxTimeSynchronizationDelay: integer
+  maxUpdateDelay: integer
+  tsePublicKey: string
+  timeUntilNextTimeSynchronization: integer
+  tseSerialNumberBytes: string
+  tseSerialNumberHex: string
+  tseDescription: string
+  registeredClients: integer
+  maxRegisteredClients: integer
+  certificateExpirationDate: string
+  tarExportSizeInSectors: integer
+  tarExportSize: integer
+  hardwareVersion: integer
+  softwareVersion: integer
+  formFactor: string
+  uncorrectableEccErrors: integer
+  percentageRemainingSpareBlocks: integer
+  percentageRemainingEraseCounts: integer
+  percentageRemainingTenYearsDataRetention: integer
+  needsReplacement: boolean
+}
+```
+
+### [GET] /certificate
+
+Retrieve the certificate used for signing
+
+### [POST] /transactions/
+
+Start a transaction
+
+#### Request body
+
+- application/json
+
+```ts
+{
+  client_id: string
+  process_data: string
+  process_type: string
+}
+```
+
+#### Responses
+
+- 200 Successful Response
+
+`application/json`
+
+```ts
+{
+  logTime: integer
+  serialNumberHex: string
+  signatureCounter: integer
+  transactionNumber: integer
+  signatureBase64: string
+}
+```
+
+### [POST] /transactions/{transaction_id}/update
+
+Update a transaction
+
+#### Request body
+
+- application/json
+
+```ts
+{
+  client_id: string
+  process_data: string
+  process_type: string
+}
+```
+
+#### Responses
+
+- 200 Successful Response
+
+`application/json`
+
+```ts
+{
+  logTime: integer
+  serialNumberHex: string
+  signatureCounter: integer
+  transactionNumber: integer
+  signatureBase64: string
+}
+```
+
+### [POST] /transactions/{transaction_id}/finish
+
+Finish a transaction
+
+#### Request body
+
+- application/json
+
+```ts
+{
+  client_id: string
+  process_data: string
+  process_type: string
+}
+```
+
+#### Responses
+
+- 200 Successful Response
+
+`application/json`
+
+```ts
+{
+  logTime: integer
+  serialNumberHex: string
+  signatureCounter: integer
+  transactionNumber: integer
+  signatureBase64: string
+}
 ```
 
 

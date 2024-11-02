@@ -1,8 +1,10 @@
 import datetime
+import os
 from contextlib import contextmanager
 
 import click
 import dateutil.parser
+import uvicorn
 from click import UsageError
 from rich.console import Console
 from rich.table import Table
@@ -81,9 +83,10 @@ def _tse_context(ctx, admin_pin=None, time_admin_pin=None, self_test_client=None
                 w.login_as_admin(admin_pin)
             if time_admin_pin:
                 w.login_as_time_admin(time_admin_pin)
-                if w.info()["isDevelopmentFirmware"] and w.info()[
+                if info["isDevelopmentFirmware"] and info[
                     "certificateExpirationDate"
                 ] < datetime.datetime.now(datetime.timezone.utc):
+                    # Development TSEs expired 2020-01, so let's backdate so we can still use them for testing
                     w.update_time(
                         datetime.datetime.now(datetime.timezone.utc).replace(year=2019)
                     )
@@ -103,9 +106,10 @@ def _tse_context(ctx, admin_pin=None, time_admin_pin=None, self_test_client=None
                 w.login_as_admin(admin_pin)
             if time_admin_pin:
                 w.login_as_time_admin(time_admin_pin)
-                if w.info()["isDevelopmentFirmware"] and w.info()[
+                if info["isDevelopmentFirmware"] and info[
                     "certificateExpirationDate"
                 ] < datetime.datetime.now(datetime.timezone.utc):
+                    # Development TSEs expired 2020-01, so let's backdate so we can still use them for testing
                     w.update_time(
                         datetime.datetime.now(datetime.timezone.utc).replace(year=2019)
                     )
@@ -542,6 +546,51 @@ def export(
             start_transaction=start_transaction,
             end_transaction=end_transaction,
         )
+
+
+@main.command(help="Run local API server")
+@click.option("--reload", is_flag=True, help="Auto-reload code (development only)")
+@click.option(
+    "--host",
+    type=str,
+    default="127.0.0.1",
+    help="Host to listen to (default: 127.0.0.1)",
+)
+@click.option(
+    "--port", type=int, default=9873, help="Host to listen to (default: 9873)"
+)
+@click.option("--time-admin-pin", prompt=True, type=T_PIN, help="Time Admin PIN")
+@click.pass_context
+def serve(ctx, host, port, reload, time_admin_pin):
+    os.environ.update(
+        {
+            "SBTSE_PATH": ctx.obj["path"] or "",
+            "SBTSE_URL": ctx.obj["url"] or "",
+            "SBTSE_API_KEY": ctx.obj["api_key"] or "",
+            "SBTSE_TSE": ctx.obj["tse"] or "",
+            "SBTSE_TAPIN": time_admin_pin,
+        }
+    )
+    log_config = uvicorn.config.LOGGING_CONFIG
+    log_config["formatters"]["access"][
+        "fmt"
+    ] = "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+    log_config["formatters"]["default"][
+        "fmt"
+    ] = "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+    log_config["loggers"][""] = {
+        "handlers": ["default"],
+        "level": "INFO",
+        "propagate": False,
+    }
+    uvicorn.run(
+        "sbtse.api:app",
+        host=host,
+        port=port,
+        workers=1,  # No concurrent access to TSE allowed!
+        reload=reload,
+        log_config=log_config,
+    )
 
 
 if __name__ == "__main__":

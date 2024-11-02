@@ -19,6 +19,7 @@ classifiers = [
 dependencies = [
     "click==8.1.*",
     "rich==13.6.*",
+    "fastapi[standard]==0.115.*",
     "python-dateutil",
 ]
 dynamic = ["version"]
