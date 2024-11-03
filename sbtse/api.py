@@ -90,9 +90,17 @@ def _ensure_worm_context(client_id, require_self_test=True) -> BaseWormContext:
     info = worm_context.info()
 
     if not info["hasPassedSelfTest"] and require_self_test:
-        logger.info(f"Running self test with client ID {client_id}...")
-        worm_context.run_self_test(client_id)
-        logger.info("Self test completed.")
+        if client_id:
+            logger.info(f"Running self test with client ID {client_id}...")
+            worm_context.run_self_test(client_id)
+            logger.info("Self test completed.")
+        else:
+            logger.info(f"Running self test with client ID FAKE...")
+            try:
+                worm_context.run_self_test("FAKE")
+            except errors.WormErrorClientNotRegistered:
+                pass
+            logger.info("Self test completed.")
 
     if time.time() - last_time_update > info["maxTimeSynchronizationDelay"] * 0.8:
         _update_time(info)
@@ -132,11 +140,6 @@ class InfoResponse(BaseModel):
     hardwareVersion: int
     softwareVersion: int
     formFactor: str
-    uncorrectableEccErrors: int
-    percentageRemainingSpareBlocks: int
-    percentageRemainingEraseCounts: int
-    percentageRemainingTenYearsDataRetention: int
-    needsReplacement: bool
     logTimeFormat: str
     signatureAlgorithm: str
 
@@ -153,6 +156,25 @@ def info() -> InfoResponse:
                 "logTimeFormat": log_time_format(),
                 "signatureAlgorithm": signature_algorithm(),
             }.items()
+        }
+    )
+
+
+class HealthResponse(BaseModel):
+    uncorrectableEccErrors: int
+    percentageRemainingSpareBlocks: int
+    percentageRemainingEraseCounts: int
+    percentageRemainingTenYearsDataRetention: int
+    needsReplacement: bool
+
+
+@app.get("/health", summary="Retrieve flash health information about the TSE")
+def health() -> HealthResponse:
+    worm = _ensure_worm_context(None, require_self_test=True)
+    return HealthResponse(
+        **{
+            k: v
+            for k, v in worm.flash_health().items()
         }
     )
 

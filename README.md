@@ -133,13 +133,14 @@ with worm.LANWormContext("https://10.1.1.1:9000", "api_key") as w:
 The API is executed as a single-thread single-process worker to avoid concurrent access to the TSE which might be problematic.
 However, this also means that the API might be slow to respond under concurrent access. This is intentional.
 
-| Method | Path | Description |
-| --- | --- | --- |
-| GET | [/info](#getinfo) | Retrieve information about the TSE |
-| GET | [/certificate](#getcertificate) | Retrieve the certificate used for signing |
-| POST | [/transactions/](#posttransactions) | Start a transcation |
-| POST | [/transactions/{transaction_id}/update](#posttransactionstransaction_idupdate) | Update a transaction |
-| POST | [/transactions/{transaction_id}/finish](#posttransactionstransaction_idfinish) | Finish a transaction |
+| Method | Path                                                                           | Description                                      |
+| --- |--------------------------------------------------------------------------------|--------------------------------------------------|
+| GET | [/info](#getinfo)                                                              | Retrieve information about the TSE               |
+| GET | [/health](#gethealth)                                                          | Retrieve health status information about the TSE |
+| GET | [/certificate](#getcertificate)                                                | Retrieve the certificate used for signing        |
+| POST | [/transactions/](#posttransactions)                                            | Start a transcation                              |
+| POST | [/transactions/{transaction_id}/update](#posttransactionstransaction_idupdate) | Update a transaction                             |
+| POST | [/transactions/{transaction_id}/finish](#posttransactionstransaction_idfinish) | Finish a transaction                             |
 
 ### [GET] /info
 
@@ -184,13 +185,28 @@ Retrieve information about the TSE
   hardwareVersion: integer
   softwareVersion: integer
   formFactor: string
+  logTimeFormat: str
+  signatureAlgorithm: str
+}
+```
+
+### [GET] /health
+
+Retrieve health information about the TSE
+
+#### Responses
+
+- 200 Successful Response
+
+`application/json`
+
+```ts
+{
   uncorrectableEccErrors: integer
   percentageRemainingSpareBlocks: integer
   percentageRemainingEraseCounts: integer
   percentageRemainingTenYearsDataRetention: integer
   needsReplacement: boolean
-  logTimeFormat: str
-  signatureAlgorithm: str
 }
 ```
 
