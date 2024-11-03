@@ -12,7 +12,13 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from sbtse import errors
-from sbtse.worm import BaseWormContext, LocalWormContext, LANWormContext, log_time_format, signature_algorithm
+from sbtse.worm import (
+    BaseWormContext,
+    LocalWormContext,
+    LANWormContext,
+    log_time_format,
+    signature_algorithm,
+)
 
 
 @asynccontextmanager
@@ -171,12 +177,7 @@ class HealthResponse(BaseModel):
 @app.get("/health", summary="Retrieve flash health information about the TSE")
 def health() -> HealthResponse:
     worm = _ensure_worm_context(None, require_self_test=True)
-    return HealthResponse(
-        **{
-            k: v
-            for k, v in worm.flash_health().items()
-        }
-    )
+    return HealthResponse(**{k: v for k, v in worm.flash_health().items()})
 
 
 @app.get("/certificate", summary="Retrieve the certificate used for signing")

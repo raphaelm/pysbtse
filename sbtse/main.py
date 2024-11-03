@@ -10,7 +10,11 @@ from rich.console import Console
 from rich.table import Table
 
 from sbtse import worm
-from sbtse.errors import WormError, WormErrorClientNotRegistered
+from sbtse.errors import (
+    WormError,
+    WormErrorClientNotRegistered,
+    WormErrorWrongStateNeedsSelfTest,
+)
 
 
 class PinParamType(click.ParamType):
@@ -132,7 +136,14 @@ def info(ctx):
 
         console = Console()
         console.print(table)
-        info = w.flash_health()
+
+        try:
+            info = w.flash_health()
+        except WormErrorWrongStateNeedsSelfTest:
+            click.echo(
+                click.style("Flash health can only be shown after selftest.", fg="red")
+            )
+            return
 
         table = Table(title="Flash health")
         table.add_column("Key", justify="left", no_wrap=True)
