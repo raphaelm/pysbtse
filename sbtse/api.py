@@ -12,7 +12,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from sbtse import errors
-from sbtse.worm import BaseWormContext, LocalWormContext, LANWormContext
+from sbtse.worm import BaseWormContext, LocalWormContext, LANWormContext, log_time_format, signature_algorithm
 
 
 @asynccontextmanager
@@ -126,7 +126,7 @@ class InfoResponse(BaseModel):
     tseDescription: str
     registeredClients: int
     maxRegisteredClients: int
-    certificateExpirationDate: str
+    certificateExpirationDate: datetime
     tarExportSizeInSectors: int
     tarExportSize: int
     hardwareVersion: int
@@ -137,6 +137,8 @@ class InfoResponse(BaseModel):
     percentageRemainingEraseCounts: int
     percentageRemainingTenYearsDataRetention: int
     needsReplacement: bool
+    logTimeFormat: str
+    signatureAlgorithm: str
 
 
 @app.get("/info", summary="Retrieve information about the TSE")
@@ -148,6 +150,8 @@ def info() -> InfoResponse:
             for k, v in {
                 **worm.info(),
                 **worm.flash_health(),
+                "logTimeFormat": log_time_format(),
+                "signatureAlgorithm": signature_algorithm(),
             }.items()
         }
     )

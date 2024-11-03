@@ -189,6 +189,8 @@ Retrieve information about the TSE
   percentageRemainingEraseCounts: integer
   percentageRemainingTenYearsDataRetention: integer
   needsReplacement: boolean
+  logTimeFormat: str
+  signatureAlgorithm: str
 }
 ```
 
