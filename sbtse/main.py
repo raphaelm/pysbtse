@@ -33,7 +33,7 @@ class PukParamType(click.ParamType):
 
     def convert(self, value, param, ctx):
         if len(value) != 6:
-            self.fail(f"{value!r} is not of length 5", param, ctx)
+            self.fail(f"{value!r} is not of length 6", param, ctx)
         if not value.isdigit():
             self.fail(f"{value!r} is not only digits", param, ctx)
         return value
@@ -178,7 +178,7 @@ def factory_reset(ctx):
 @main.command(help="Run setup procedure for a fresh TSE")
 @click.option("--client-id", "-c", prompt=True, type=str, help="Client ID")
 @click.option("--admin-pin", prompt=True, type=T_PIN, help="Admin PIN")
-@click.option("--admin-puk", prompt=True, type=T_PIN, help="Admin PUK")
+@click.option("--admin-puk", prompt=True, type=T_PUK, help="Admin PUK")
 @click.option("--time-admin-pin", prompt=True, type=T_PIN, help="Time Admin PIN")
 @click.pass_context
 def setup(ctx, client_id, admin_pin, admin_puk, time_admin_pin):
