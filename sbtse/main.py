@@ -65,7 +65,7 @@ T_DATETIME = DateTimeParamType()
 @click.pass_context
 def main(ctx, path, url, api_key, tse):
     ctx.ensure_object(dict)
-    if not path and not (url and api_key and tse):
+    if not path and not (url and api_key and tse) and ctx.invoked_subcommand != "mock":
         raise UsageError("Please set either --path or --url/--api-key/--tse.")
     ctx.obj["path"] = path
     ctx.obj["url"] = url
@@ -573,6 +573,26 @@ def export(
 @click.option("--time-admin-pin", prompt=True, type=T_PIN, help="Time Admin PIN")
 @click.pass_context
 def serve(ctx, host, port, reload, time_admin_pin):
+    _serve(ctx, host, port, reload, time_admin_pin, "sbtse.api:app")
+
+
+@main.command(help="Run mock API server (development only)")
+@click.option("--reload", is_flag=True, help="Auto-reload code (development only)")
+@click.option(
+    "--host",
+    type=str,
+    default="127.0.0.1",
+    help="Host to listen to (default: 127.0.0.1)",
+)
+@click.option(
+    "--port", type=int, default=9873, help="Host to listen to (default: 9873)"
+)
+@click.pass_context
+def mock(ctx, host, port, reload):
+    _serve(ctx, host, port, reload, "12345", "sbtse.mockapi:app")
+
+
+def _serve(ctx, host, port, reload, time_admin_pin, app):
     os.environ.update(
         {
             "SBTSE_PATH": ctx.obj["path"] or "",
@@ -595,7 +615,7 @@ def serve(ctx, host, port, reload, time_admin_pin):
         "propagate": False,
     }
     uvicorn.run(
-        "sbtse.api:app",
+        app,
         host=host,
         port=port,
         workers=1,  # No concurrent access to TSE allowed!

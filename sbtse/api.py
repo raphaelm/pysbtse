@@ -230,7 +230,7 @@ def tx_update(inp: TransactionInput, transaction_id: int) -> TransactionResponse
 
 
 @app.post("/transactions/{transaction_id}/finish", summary="Finish a transaction")
-def tx_update(inp: TransactionInput, transaction_id: int) -> TransactionResponse:
+def tx_finish(inp: TransactionInput, transaction_id: int) -> TransactionResponse:
     worm = _ensure_worm_context(client_id=inp.client_id)
     resp = worm.transaction_finish(
         client_id=inp.client_id,

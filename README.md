@@ -41,6 +41,7 @@ Commands:
   factory-reset    Factory reset (development TSE only)
   firmware-update  Update firmware to version bundled with SDK.
   info             Show info and flash health status
+  mock             Run mock API server (development only)
   pin              Manage Admin PIN
   puk              Manage PUK
   selftest         Run self-test
