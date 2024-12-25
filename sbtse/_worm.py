@@ -27,7 +27,6 @@ del t
 del _int_types
 
 
-
 class UserString:
     def __init__(self, seq):
         if isinstance(seq, bytes):
@@ -437,6 +436,7 @@ def ord_if_char(value):
     """
     return ord(value) if (isinstance(value, bytes) or isinstance(value, str)) else value
 
+
 # End preamble
 
 _libs = {}
@@ -572,7 +572,9 @@ class LibraryLoader:
             # then we search the directory where the generated python interface is stored
             if this_file is not None:
                 for fmt in self.name_formats:
-                    yield os.path.abspath(os.path.join(os.path.dirname(__file__), fmt % libname))
+                    yield os.path.abspath(
+                        os.path.join(os.path.dirname(__file__), fmt % libname)
+                    )
 
             # now, use the ctypes tools to try to find the library
             for fmt in self.name_formats:
@@ -867,227 +869,229 @@ _libs["libWormAPI"] = load_library("libWormAPI")
 
 # No modules
 
-enum_anon_1 = c_int# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 37
+enum_anon_1 = c_int  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 37
 
-WORM_ENTRY_TYPE_TRANSACTION = 0# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 37
+WORM_ENTRY_TYPE_TRANSACTION = 0  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 37
 
-WORM_ENTRY_TYPE_SYSTEM_LOG_MESSAGE = 1# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 37
+WORM_ENTRY_TYPE_SYSTEM_LOG_MESSAGE = 1  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 37
 
-WORM_ENTRY_TYPE_SE_AUDIT_LOG_MESSAGE = 2# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 37
+WORM_ENTRY_TYPE_SE_AUDIT_LOG_MESSAGE = 2  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 37
 
-WormEntryType = enum_anon_1# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 37
+WormEntryType = enum_anon_1  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 37
 
-enum_anon_2 = c_int# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 64
+enum_anon_2 = c_int  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 64
 
-WORM_USER_UNAUTHENTICATED = 0# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 64
+WORM_USER_UNAUTHENTICATED = 0  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 64
 
-WORM_USER_ADMIN = 1# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 64
+WORM_USER_ADMIN = 1  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 64
 
-WORM_USER_TIME_ADMIN = 2# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 64
+WORM_USER_TIME_ADMIN = 2  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 64
 
-WormUserId = enum_anon_2# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 64
+WormUserId = enum_anon_2  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 64
 
-enum_anon_3 = c_int# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 95
+enum_anon_3 = c_int  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 95
 
-WORM_INIT_UNINITIALIZED = 0# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 95
+WORM_INIT_UNINITIALIZED = 0  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 95
 
-WORM_INIT_INITIALIZED = 1# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 95
+WORM_INIT_INITIALIZED = 1  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 95
 
-WORM_INIT_DECOMMISSIONED = 2# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 95
+WORM_INIT_DECOMMISSIONED = 2  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 95
 
-WormInitializationState = enum_anon_3# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 95
+WormInitializationState = enum_anon_3  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 95
 
-enum_anon_4 = c_int# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 109
+enum_anon_4 = c_int  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 109
 
-WORM_FW_1_1_0_USB = 0# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 109
+WORM_FW_1_1_0_USB = 0  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 109
 
-WORM_FW_NONE = (WORM_FW_1_1_0_USB + 1)# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 109
+WORM_FW_NONE = (
+    WORM_FW_1_1_0_USB + 1
+)  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 109
 
-WormTseFirmwareUpdate = enum_anon_4# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 109
+WormTseFirmwareUpdate = enum_anon_4  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL_publicTypes.h: 109
 
-enum_anon_5 = c_int# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+enum_anon_5 = c_int  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_NOERROR = 0# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_NOERROR = 0  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_INVALID_PARAMETER = 1# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_INVALID_PARAMETER = 1  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_NO_WORM_CARD = 2# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_NO_WORM_CARD = 2  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_IO = 3# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_IO = 3  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_TIMEOUT = 4# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_TIMEOUT = 4  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_OUTOFMEM = 5# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_OUTOFMEM = 5  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_INVALID_RESPONSE = 6# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_INVALID_RESPONSE = 6  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_STORE_FULL_INTERNAL = 7# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_STORE_FULL_INTERNAL = 7  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_RESPONSE_MISSING = 8# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_RESPONSE_MISSING = 8  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_EXPORT_NOT_INITIALIZED = 9# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_EXPORT_NOT_INITIALIZED = 9  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_EXPORT_FAILED = 10# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_EXPORT_FAILED = 10  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_INCREMENTAL_EXPORT_INVALID_STATE = 11# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_INCREMENTAL_EXPORT_INVALID_STATE = 11  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_INCREMENTAL_EXPORT_NO_DATA = 12# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_INCREMENTAL_EXPORT_NO_DATA = 12  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_POWER_CYCLE_DETECTED = 13# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_POWER_CYCLE_DETECTED = 13  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_FIRMWARE_UPDATE_NOT_APPLIED = 14# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_FIRMWARE_UPDATE_NOT_APPLIED = 14  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_THREAD_START_FAILED = 15# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_THREAD_START_FAILED = 15  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_NETWORK = 16# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_NETWORK = 16  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_CMD_NOT_SUPPORTED = 17# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_CMD_NOT_SUPPORTED = 17  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_LAN_INVALID_API_TOKEN = 18# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_LAN_INVALID_API_TOKEN = 18  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_NETWORK_TIMEOUT = 19# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_NETWORK_TIMEOUT = 19  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_CONNECTION_FAILED = 20# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_CONNECTION_FAILED = 20  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_LAN_UNBALANCED_LOCKS = 21# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_LAN_UNBALANCED_LOCKS = 21  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_LAN_INVALID_SERVER_RESPONSE = 22# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_LAN_INVALID_SERVER_RESPONSE = 22  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_INVALID_STATE = 23# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_INVALID_STATE = 23  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_TSE_NOT_FOUND = 24# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_TSE_NOT_FOUND = 24  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_INCREMENTAL_EXPORT_LIMIT_TOO_LOW = 25# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_INCREMENTAL_EXPORT_LIMIT_TOO_LOW = 25  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_FWU_NOT_AVAILABLE = 26# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_FWU_NOT_AVAILABLE = 26  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_FROM_CARD_FIRST = 0x1000# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_FROM_CARD_FIRST = 0x1000  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_UNKNOWN = 0x1001# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_UNKNOWN = 0x1001  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_NO_TIME_SET = 0x1002# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_NO_TIME_SET = 0x1002  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_NO_TRANSACTION_IN_PROGRESS = 0x1004# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_NO_TRANSACTION_IN_PROGRESS = 0x1004  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_INVALID_CMD_SYNTAX = 0x1005# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_INVALID_CMD_SYNTAX = 0x1005  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_WRONG_LENGTH = WORM_ERROR_INVALID_CMD_SYNTAX# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_WRONG_LENGTH = WORM_ERROR_INVALID_CMD_SYNTAX  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_NOT_ENOUGH_DATA_WRITTEN = 0x1006# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_NOT_ENOUGH_DATA_WRITTEN = 0x1006  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_TSE_INVALID_PARAMETER = 0x1007# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_TSE_INVALID_PARAMETER = 0x1007  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_TRANSACTION_NOT_STARTED = 0x1008# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_TRANSACTION_NOT_STARTED = 0x1008  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_MAX_PARALLEL_TRANSACTIONS = 0x1009# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_MAX_PARALLEL_TRANSACTIONS = 0x1009  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_CERTIFICATE_EXPIRED = 0x100a# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_CERTIFICATE_EXPIRED = 0x100A  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_NO_LAST_TRANSACTION = 0x100c# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_NO_LAST_TRANSACTION = 0x100C  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_CMD_NOT_ALLOWED = 0x100d# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_CMD_NOT_ALLOWED = 0x100D  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_TRANSACTION_SIGNATURES_EXCEEDED = 0x100e# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_TRANSACTION_SIGNATURES_EXCEEDED = 0x100E  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_NOT_AUTHORIZED = 0x100f# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_NOT_AUTHORIZED = 0x100F  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_MAX_REGISTERED_CLIENTS_REACHED = 0x1010# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_MAX_REGISTERED_CLIENTS_REACHED = 0x1010  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_CLIENT_NOT_REGISTERED = 0x1011# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_CLIENT_NOT_REGISTERED = 0x1011  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_EXPORT_UNACKNOWLEDGED_DATA = 0x1012# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_EXPORT_UNACKNOWLEDGED_DATA = 0x1012  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_CLIENT_HAS_UNFINISHED_TRANSACTIONS = 0x1013# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_CLIENT_HAS_UNFINISHED_TRANSACTIONS = 0x1013  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_TSE_HAS_UNFINISHED_TRANSACTIONS = 0x1014# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_TSE_HAS_UNFINISHED_TRANSACTIONS = 0x1014  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_TSE_NO_RESPONSE_TO_FETCH = 0x1015# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_TSE_NO_RESPONSE_TO_FETCH = 0x1015  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_NOT_ALLOWED_EXPORT_IN_PROGRESS = 0x1016# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_NOT_ALLOWED_EXPORT_IN_PROGRESS = 0x1016  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_STORE_FULL = 0x1017# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_STORE_FULL = 0x1017  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_WRONG_STATE_NEEDS_PUK_CHANGE = 0x1050# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_WRONG_STATE_NEEDS_PUK_CHANGE = 0x1050  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_WRONG_STATE_NEEDS_PIN_CHANGE = 0x1051# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_WRONG_STATE_NEEDS_PIN_CHANGE = 0x1051  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_WRONG_STATE_NEEDS_ACTIVE_CTSS = 0x1053# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_WRONG_STATE_NEEDS_ACTIVE_CTSS = 0x1053  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_WRONG_STATE_NEEDS_ACTIVE_ERS = WORM_ERROR_WRONG_STATE_NEEDS_ACTIVE_CTSS# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_WRONG_STATE_NEEDS_ACTIVE_ERS = WORM_ERROR_WRONG_STATE_NEEDS_ACTIVE_CTSS  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_WRONG_STATE_NEEDS_SELF_TEST = 0x1054# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_WRONG_STATE_NEEDS_SELF_TEST = 0x1054  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_WRONG_STATE_NEEDS_SELF_TEST_PASSED = 0x1055# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_WRONG_STATE_NEEDS_SELF_TEST_PASSED = 0x1055  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_FWU_INTEGRITY_FAILURE = 0x1061# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_FWU_INTEGRITY_FAILURE = 0x1061  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_FWU_DECRYPTION_FAILURE = 0x1062# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_FWU_DECRYPTION_FAILURE = 0x1062  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_FWU_WRONG_FORMAT = 0x1064# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_FWU_WRONG_FORMAT = 0x1064  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_FWU_INTERNAL_ERROR = 0x1065# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_FWU_INTERNAL_ERROR = 0x1065  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_FWU_DOWNGRADE_PROHIBITED = 0x1067# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_FWU_DOWNGRADE_PROHIBITED = 0x1067  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_TSE_ALREADY_INITIALIZED = 0x10FD# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_TSE_ALREADY_INITIALIZED = 0x10FD  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_TSE_DECOMMISSIONED = 0x10FE# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_TSE_DECOMMISSIONED = 0x10FE  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_TSE_NOT_INITIALIZED = 0x10FF# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_TSE_NOT_INITIALIZED = 0x10FF  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_AUTHENTICATION_FAILED = 0x1100# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_AUTHENTICATION_FAILED = 0x1100  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_AUTHENTICATION_PIN_BLOCKED = 0x1201# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_AUTHENTICATION_PIN_BLOCKED = 0x1201  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_AUTHENTICATION_USER_NOT_LOGGED_IN = 0x1202# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_AUTHENTICATION_USER_NOT_LOGGED_IN = 0x1202  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_SELF_TEST_FAILED_FW = 0x1300# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_SELF_TEST_FAILED_FW = 0x1300  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_SELF_TEST_FAILED_CSP = 0x1310# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_SELF_TEST_FAILED_CSP = 0x1310  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_SELF_TEST_FAILED_RNG = 0x1320# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_SELF_TEST_FAILED_RNG = 0x1320  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_FWU_BASE_FW_ERROR = 0x1400# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_FWU_BASE_FW_ERROR = 0x1400  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_FWU_FWEXT_ERROR = 0x1500# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_FWU_FWEXT_ERROR = 0x1500  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_FWU_CSP_ERROR = 0x1600# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_FWU_CSP_ERROR = 0x1600  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_EXPORT_NONE_IN_PROGRESS = 0x2001# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_EXPORT_NONE_IN_PROGRESS = 0x2001  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_EXPORT_RETRY = 0x2002# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_EXPORT_RETRY = 0x2002  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_EXPORT_NO_DATA_AVAILABLE = 0x2003# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_EXPORT_NO_DATA_AVAILABLE = 0x2003  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_CMD_NOT_FOUND = 0xf000# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_CMD_NOT_FOUND = 0xF000  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_SIG_ERROR = 0xff00# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_SIG_ERROR = 0xFF00  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WORM_ERROR_FROM_CARD_LAST = 0xFFFF# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WORM_ERROR_FROM_CARD_LAST = 0xFFFF  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-WormError = enum_anon_5# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
+WormError = enum_anon_5  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/wormError.h: 278
 
-__uint8_t = c_ubyte# /usr/include/bits/types.h: 38
+__uint8_t = c_ubyte  # /usr/include/bits/types.h: 38
 
-__uint32_t = c_uint# /usr/include/bits/types.h: 42
+__uint32_t = c_uint  # /usr/include/bits/types.h: 42
 
-__uint64_t = c_ulong# /usr/include/bits/types.h: 45
+__uint64_t = c_ulong  # /usr/include/bits/types.h: 45
 
-uint8_t = __uint8_t# /usr/include/bits/stdint-uintn.h: 24
+uint8_t = __uint8_t  # /usr/include/bits/stdint-uintn.h: 24
 
-uint32_t = __uint32_t# /usr/include/bits/stdint-uintn.h: 26
+uint32_t = __uint32_t  # /usr/include/bits/stdint-uintn.h: 26
 
-uint64_t = __uint64_t# /usr/include/bits/stdint-uintn.h: 27
+uint64_t = __uint64_t  # /usr/include/bits/stdint-uintn.h: 27
 
-worm_uint = uint64_t# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 287
-
+worm_uint = uint64_t  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 287
 
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 309
 class struct_WormContext(Structure):
     pass
 
-WormContext = struct_WormContext# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 309
+
+WormContext = struct_WormContext  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 309
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 317
 if _libs["libWormAPI"].has("worm_getVersion", "cdecl"):
@@ -1103,7 +1107,9 @@ if _libs["libWormAPI"].has("worm_isOnlineSdk", "cdecl"):
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 336
 if _libs["libWormAPI"].has("worm_signatureAlgorithm", "cdecl"):
-    worm_signatureAlgorithm = _libs["libWormAPI"].get("worm_signatureAlgorithm", "cdecl")
+    worm_signatureAlgorithm = _libs["libWormAPI"].get(
+        "worm_signatureAlgorithm", "cdecl"
+    )
     worm_signatureAlgorithm.argtypes = []
     worm_signatureAlgorithm.restype = c_char_p
 
@@ -1130,7 +1136,9 @@ for _lib in _libs.values():
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 433
 if _libs["libWormAPI"].has("worm_keepalive_configure", "cdecl"):
-    worm_keepalive_configure = _libs["libWormAPI"].get("worm_keepalive_configure", "cdecl")
+    worm_keepalive_configure = _libs["libWormAPI"].get(
+        "worm_keepalive_configure", "cdecl"
+    )
     worm_keepalive_configure.argtypes = [POINTER(WormContext), c_int]
     worm_keepalive_configure.restype = WormError
 
@@ -1173,11 +1181,13 @@ if _libs["libWormAPI"].has("worm_cleanup", "cdecl"):
     worm_cleanup.argtypes = [POINTER(WormContext)]
     worm_cleanup.restype = WormError
 
+
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 597
 class struct_WormInfo(Structure):
     pass
 
-WormInfo = struct_WormInfo# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 597
+
+WormInfo = struct_WormInfo  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 597
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 608
 if _libs["libWormAPI"].has("worm_info_new", "cdecl"):
@@ -1199,19 +1209,31 @@ if _libs["libWormAPI"].has("worm_info_read", "cdecl"):
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 637
 if _libs["libWormAPI"].has("worm_info_customizationIdentifier", "cdecl"):
-    worm_info_customizationIdentifier = _libs["libWormAPI"].get("worm_info_customizationIdentifier", "cdecl")
-    worm_info_customizationIdentifier.argtypes = [POINTER(WormInfo), POINTER(POINTER(c_ubyte)), POINTER(c_int)]
+    worm_info_customizationIdentifier = _libs["libWormAPI"].get(
+        "worm_info_customizationIdentifier", "cdecl"
+    )
+    worm_info_customizationIdentifier.argtypes = [
+        POINTER(WormInfo),
+        POINTER(POINTER(c_ubyte)),
+        POINTER(c_int),
+    ]
     worm_info_customizationIdentifier.restype = None
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 641
 if _libs["libWormAPI"].has("worm_info_uniqueId", "cdecl"):
     worm_info_uniqueId = _libs["libWormAPI"].get("worm_info_uniqueId", "cdecl")
-    worm_info_uniqueId.argtypes = [POINTER(WormInfo), POINTER(POINTER(c_ubyte)), POINTER(c_int)]
+    worm_info_uniqueId.argtypes = [
+        POINTER(WormInfo),
+        POINTER(POINTER(c_ubyte)),
+        POINTER(c_int),
+    ]
     worm_info_uniqueId.restype = None
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 649
 if _libs["libWormAPI"].has("worm_info_isDevelopmentFirmware", "cdecl"):
-    worm_info_isDevelopmentFirmware = _libs["libWormAPI"].get("worm_info_isDevelopmentFirmware", "cdecl")
+    worm_info_isDevelopmentFirmware = _libs["libWormAPI"].get(
+        "worm_info_isDevelopmentFirmware", "cdecl"
+    )
     worm_info_isDevelopmentFirmware.argtypes = [POINTER(WormInfo)]
     worm_info_isDevelopmentFirmware.restype = c_int
 
@@ -1241,181 +1263,247 @@ if _libs["libWormAPI"].has("worm_info_hasValidTime", "cdecl"):
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 684
 if _libs["libWormAPI"].has("worm_info_hasPassedSelfTest", "cdecl"):
-    worm_info_hasPassedSelfTest = _libs["libWormAPI"].get("worm_info_hasPassedSelfTest", "cdecl")
+    worm_info_hasPassedSelfTest = _libs["libWormAPI"].get(
+        "worm_info_hasPassedSelfTest", "cdecl"
+    )
     worm_info_hasPassedSelfTest.argtypes = [POINTER(WormInfo)]
     worm_info_hasPassedSelfTest.restype = c_int
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 696
 if _libs["libWormAPI"].has("worm_info_isCtssInterfaceActive", "cdecl"):
-    worm_info_isCtssInterfaceActive = _libs["libWormAPI"].get("worm_info_isCtssInterfaceActive", "cdecl")
+    worm_info_isCtssInterfaceActive = _libs["libWormAPI"].get(
+        "worm_info_isCtssInterfaceActive", "cdecl"
+    )
     worm_info_isCtssInterfaceActive.argtypes = [POINTER(WormInfo)]
     worm_info_isCtssInterfaceActive.restype = c_int
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 700
 if _libs["libWormAPI"].has("worm_info_isErsInterfaceActive", "cdecl"):
-    worm_info_isErsInterfaceActive = _libs["libWormAPI"].get("worm_info_isErsInterfaceActive", "cdecl")
+    worm_info_isErsInterfaceActive = _libs["libWormAPI"].get(
+        "worm_info_isErsInterfaceActive", "cdecl"
+    )
     worm_info_isErsInterfaceActive.argtypes = [POINTER(WormInfo)]
     worm_info_isErsInterfaceActive.restype = c_int
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 710
 if _libs["libWormAPI"].has("worm_info_isExportEnabledIfCspTestFails", "cdecl"):
-    worm_info_isExportEnabledIfCspTestFails = _libs["libWormAPI"].get("worm_info_isExportEnabledIfCspTestFails", "cdecl")
+    worm_info_isExportEnabledIfCspTestFails = _libs["libWormAPI"].get(
+        "worm_info_isExportEnabledIfCspTestFails", "cdecl"
+    )
     worm_info_isExportEnabledIfCspTestFails.argtypes = [POINTER(WormInfo)]
     worm_info_isExportEnabledIfCspTestFails.restype = c_int
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 719
 if _libs["libWormAPI"].has("worm_info_initializationState", "cdecl"):
-    worm_info_initializationState = _libs["libWormAPI"].get("worm_info_initializationState", "cdecl")
+    worm_info_initializationState = _libs["libWormAPI"].get(
+        "worm_info_initializationState", "cdecl"
+    )
     worm_info_initializationState.argtypes = [POINTER(WormInfo)]
     worm_info_initializationState.restype = WormInitializationState
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 726
 if _libs["libWormAPI"].has("worm_info_isDataImportInProgress", "cdecl"):
-    worm_info_isDataImportInProgress = _libs["libWormAPI"].get("worm_info_isDataImportInProgress", "cdecl")
+    worm_info_isDataImportInProgress = _libs["libWormAPI"].get(
+        "worm_info_isDataImportInProgress", "cdecl"
+    )
     worm_info_isDataImportInProgress.argtypes = [POINTER(WormInfo)]
     worm_info_isDataImportInProgress.restype = c_int
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 730
 if _libs["libWormAPI"].has("worm_info_isTransactionInProgress", "cdecl"):
-    worm_info_isTransactionInProgress = _libs["libWormAPI"].get("worm_info_isTransactionInProgress", "cdecl")
+    worm_info_isTransactionInProgress = _libs["libWormAPI"].get(
+        "worm_info_isTransactionInProgress", "cdecl"
+    )
     worm_info_isTransactionInProgress.argtypes = [POINTER(WormInfo)]
     worm_info_isTransactionInProgress.restype = c_int
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 736
 if _libs["libWormAPI"].has("worm_info_hasChangedPuk", "cdecl"):
-    worm_info_hasChangedPuk = _libs["libWormAPI"].get("worm_info_hasChangedPuk", "cdecl")
+    worm_info_hasChangedPuk = _libs["libWormAPI"].get(
+        "worm_info_hasChangedPuk", "cdecl"
+    )
     worm_info_hasChangedPuk.argtypes = [POINTER(WormInfo)]
     worm_info_hasChangedPuk.restype = c_int
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 742
 if _libs["libWormAPI"].has("worm_info_hasChangedAdminPin", "cdecl"):
-    worm_info_hasChangedAdminPin = _libs["libWormAPI"].get("worm_info_hasChangedAdminPin", "cdecl")
+    worm_info_hasChangedAdminPin = _libs["libWormAPI"].get(
+        "worm_info_hasChangedAdminPin", "cdecl"
+    )
     worm_info_hasChangedAdminPin.argtypes = [POINTER(WormInfo)]
     worm_info_hasChangedAdminPin.restype = c_int
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 748
 if _libs["libWormAPI"].has("worm_info_hasChangedTimeAdminPin", "cdecl"):
-    worm_info_hasChangedTimeAdminPin = _libs["libWormAPI"].get("worm_info_hasChangedTimeAdminPin", "cdecl")
+    worm_info_hasChangedTimeAdminPin = _libs["libWormAPI"].get(
+        "worm_info_hasChangedTimeAdminPin", "cdecl"
+    )
     worm_info_hasChangedTimeAdminPin.argtypes = [POINTER(WormInfo)]
     worm_info_hasChangedTimeAdminPin.restype = c_int
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 752
 if _libs["libWormAPI"].has("worm_info_firmwareVersion", "cdecl"):
-    worm_info_firmwareVersion = _libs["libWormAPI"].get("worm_info_firmwareVersion", "cdecl")
+    worm_info_firmwareVersion = _libs["libWormAPI"].get(
+        "worm_info_firmwareVersion", "cdecl"
+    )
     worm_info_firmwareVersion.argtypes = [POINTER(WormInfo)]
     worm_info_firmwareVersion.restype = uint32_t
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 764
 if _libs["libWormAPI"].has("worm_info_timeUntilNextSelfTest", "cdecl"):
-    worm_info_timeUntilNextSelfTest = _libs["libWormAPI"].get("worm_info_timeUntilNextSelfTest", "cdecl")
+    worm_info_timeUntilNextSelfTest = _libs["libWormAPI"].get(
+        "worm_info_timeUntilNextSelfTest", "cdecl"
+    )
     worm_info_timeUntilNextSelfTest.argtypes = [POINTER(WormInfo)]
     worm_info_timeUntilNextSelfTest.restype = uint32_t
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 780
 if _libs["libWormAPI"].has("worm_info_startedTransactions", "cdecl"):
-    worm_info_startedTransactions = _libs["libWormAPI"].get("worm_info_startedTransactions", "cdecl")
+    worm_info_startedTransactions = _libs["libWormAPI"].get(
+        "worm_info_startedTransactions", "cdecl"
+    )
     worm_info_startedTransactions.argtypes = [POINTER(WormInfo)]
     worm_info_startedTransactions.restype = uint32_t
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 789
 if _libs["libWormAPI"].has("worm_info_maxStartedTransactions", "cdecl"):
-    worm_info_maxStartedTransactions = _libs["libWormAPI"].get("worm_info_maxStartedTransactions", "cdecl")
+    worm_info_maxStartedTransactions = _libs["libWormAPI"].get(
+        "worm_info_maxStartedTransactions", "cdecl"
+    )
     worm_info_maxStartedTransactions.argtypes = [POINTER(WormInfo)]
     worm_info_maxStartedTransactions.restype = uint32_t
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 801
 if _libs["libWormAPI"].has("worm_info_createdSignatures", "cdecl"):
-    worm_info_createdSignatures = _libs["libWormAPI"].get("worm_info_createdSignatures", "cdecl")
+    worm_info_createdSignatures = _libs["libWormAPI"].get(
+        "worm_info_createdSignatures", "cdecl"
+    )
     worm_info_createdSignatures.argtypes = [POINTER(WormInfo)]
     worm_info_createdSignatures.restype = uint32_t
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 809
 if _libs["libWormAPI"].has("worm_info_maxSignatures", "cdecl"):
-    worm_info_maxSignatures = _libs["libWormAPI"].get("worm_info_maxSignatures", "cdecl")
+    worm_info_maxSignatures = _libs["libWormAPI"].get(
+        "worm_info_maxSignatures", "cdecl"
+    )
     worm_info_maxSignatures.argtypes = [POINTER(WormInfo)]
     worm_info_maxSignatures.restype = uint32_t
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 821
 if _libs["libWormAPI"].has("worm_info_remainingSignatures", "cdecl"):
-    worm_info_remainingSignatures = _libs["libWormAPI"].get("worm_info_remainingSignatures", "cdecl")
+    worm_info_remainingSignatures = _libs["libWormAPI"].get(
+        "worm_info_remainingSignatures", "cdecl"
+    )
     worm_info_remainingSignatures.argtypes = [POINTER(WormInfo)]
     worm_info_remainingSignatures.restype = uint32_t
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 831
 if _libs["libWormAPI"].has("worm_info_maxTimeSynchronizationDelay", "cdecl"):
-    worm_info_maxTimeSynchronizationDelay = _libs["libWormAPI"].get("worm_info_maxTimeSynchronizationDelay", "cdecl")
+    worm_info_maxTimeSynchronizationDelay = _libs["libWormAPI"].get(
+        "worm_info_maxTimeSynchronizationDelay", "cdecl"
+    )
     worm_info_maxTimeSynchronizationDelay.argtypes = [POINTER(WormInfo)]
     worm_info_maxTimeSynchronizationDelay.restype = uint32_t
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 843
 if _libs["libWormAPI"].has("worm_info_maxUpdateDelay", "cdecl"):
-    worm_info_maxUpdateDelay = _libs["libWormAPI"].get("worm_info_maxUpdateDelay", "cdecl")
+    worm_info_maxUpdateDelay = _libs["libWormAPI"].get(
+        "worm_info_maxUpdateDelay", "cdecl"
+    )
     worm_info_maxUpdateDelay.argtypes = [POINTER(WormInfo)]
     worm_info_maxUpdateDelay.restype = uint32_t
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 862
 if _libs["libWormAPI"].has("worm_info_tsePublicKey", "cdecl"):
     worm_info_tsePublicKey = _libs["libWormAPI"].get("worm_info_tsePublicKey", "cdecl")
-    worm_info_tsePublicKey.argtypes = [POINTER(WormInfo), POINTER(POINTER(c_ubyte)), POINTER(worm_uint)]
+    worm_info_tsePublicKey.argtypes = [
+        POINTER(WormInfo),
+        POINTER(POINTER(c_ubyte)),
+        POINTER(worm_uint),
+    ]
     worm_info_tsePublicKey.restype = None
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 886
 if _libs["libWormAPI"].has("worm_info_timeUntilNextTimeSynchronization", "cdecl"):
-    worm_info_timeUntilNextTimeSynchronization = _libs["libWormAPI"].get("worm_info_timeUntilNextTimeSynchronization", "cdecl")
+    worm_info_timeUntilNextTimeSynchronization = _libs["libWormAPI"].get(
+        "worm_info_timeUntilNextTimeSynchronization", "cdecl"
+    )
     worm_info_timeUntilNextTimeSynchronization.argtypes = [POINTER(WormInfo)]
     worm_info_timeUntilNextTimeSynchronization.restype = uint32_t
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 899
 if _libs["libWormAPI"].has("worm_info_tseSerialNumber", "cdecl"):
-    worm_info_tseSerialNumber = _libs["libWormAPI"].get("worm_info_tseSerialNumber", "cdecl")
-    worm_info_tseSerialNumber.argtypes = [POINTER(WormInfo), POINTER(POINTER(c_ubyte)), POINTER(worm_uint)]
+    worm_info_tseSerialNumber = _libs["libWormAPI"].get(
+        "worm_info_tseSerialNumber", "cdecl"
+    )
+    worm_info_tseSerialNumber.argtypes = [
+        POINTER(WormInfo),
+        POINTER(POINTER(c_ubyte)),
+        POINTER(worm_uint),
+    ]
     worm_info_tseSerialNumber.restype = None
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 915
 if _libs["libWormAPI"].has("worm_info_tseDescription", "cdecl"):
-    worm_info_tseDescription = _libs["libWormAPI"].get("worm_info_tseDescription", "cdecl")
+    worm_info_tseDescription = _libs["libWormAPI"].get(
+        "worm_info_tseDescription", "cdecl"
+    )
     worm_info_tseDescription.argtypes = [POINTER(WormInfo)]
     worm_info_tseDescription.restype = c_char_p
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 923
 if _libs["libWormAPI"].has("worm_info_registeredClients", "cdecl"):
-    worm_info_registeredClients = _libs["libWormAPI"].get("worm_info_registeredClients", "cdecl")
+    worm_info_registeredClients = _libs["libWormAPI"].get(
+        "worm_info_registeredClients", "cdecl"
+    )
     worm_info_registeredClients.argtypes = [POINTER(WormInfo)]
     worm_info_registeredClients.restype = uint32_t
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 932
 if _libs["libWormAPI"].has("worm_info_maxRegisteredClients", "cdecl"):
-    worm_info_maxRegisteredClients = _libs["libWormAPI"].get("worm_info_maxRegisteredClients", "cdecl")
+    worm_info_maxRegisteredClients = _libs["libWormAPI"].get(
+        "worm_info_maxRegisteredClients", "cdecl"
+    )
     worm_info_maxRegisteredClients.argtypes = [POINTER(WormInfo)]
     worm_info_maxRegisteredClients.restype = uint32_t
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 945
 if _libs["libWormAPI"].has("worm_info_certificateExpirationDate", "cdecl"):
-    worm_info_certificateExpirationDate = _libs["libWormAPI"].get("worm_info_certificateExpirationDate", "cdecl")
+    worm_info_certificateExpirationDate = _libs["libWormAPI"].get(
+        "worm_info_certificateExpirationDate", "cdecl"
+    )
     worm_info_certificateExpirationDate.argtypes = [POINTER(WormInfo)]
     worm_info_certificateExpirationDate.restype = worm_uint
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 958
 if _libs["libWormAPI"].has("worm_info_tarExportSizeInSectors", "cdecl"):
-    worm_info_tarExportSizeInSectors = _libs["libWormAPI"].get("worm_info_tarExportSizeInSectors", "cdecl")
+    worm_info_tarExportSizeInSectors = _libs["libWormAPI"].get(
+        "worm_info_tarExportSizeInSectors", "cdecl"
+    )
     worm_info_tarExportSizeInSectors.argtypes = [POINTER(WormInfo)]
     worm_info_tarExportSizeInSectors.restype = worm_uint
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 971
 if _libs["libWormAPI"].has("worm_info_tarExportSize", "cdecl"):
-    worm_info_tarExportSize = _libs["libWormAPI"].get("worm_info_tarExportSize", "cdecl")
+    worm_info_tarExportSize = _libs["libWormAPI"].get(
+        "worm_info_tarExportSize", "cdecl"
+    )
     worm_info_tarExportSize.argtypes = [POINTER(WormInfo)]
     worm_info_tarExportSize.restype = uint64_t
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 984
 if _libs["libWormAPI"].has("worm_info_hardwareVersion", "cdecl"):
-    worm_info_hardwareVersion = _libs["libWormAPI"].get("worm_info_hardwareVersion", "cdecl")
+    worm_info_hardwareVersion = _libs["libWormAPI"].get(
+        "worm_info_hardwareVersion", "cdecl"
+    )
     worm_info_hardwareVersion.argtypes = [POINTER(WormInfo)]
     worm_info_hardwareVersion.restype = uint32_t
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 996
 if _libs["libWormAPI"].has("worm_info_softwareVersion", "cdecl"):
-    worm_info_softwareVersion = _libs["libWormAPI"].get("worm_info_softwareVersion", "cdecl")
+    worm_info_softwareVersion = _libs["libWormAPI"].get(
+        "worm_info_softwareVersion", "cdecl"
+    )
     worm_info_softwareVersion.argtypes = [POINTER(WormInfo)]
     worm_info_softwareVersion.restype = uint32_t
 
@@ -1427,13 +1515,23 @@ if _libs["libWormAPI"].has("worm_info_formFactor", "cdecl"):
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1070
 if _libs["libWormAPI"].has("worm_flash_health_summary", "cdecl"):
-    worm_flash_health_summary = _libs["libWormAPI"].get("worm_flash_health_summary", "cdecl")
-    worm_flash_health_summary.argtypes = [POINTER(WormContext), POINTER(uint32_t), POINTER(uint8_t), POINTER(uint8_t), POINTER(uint8_t)]
+    worm_flash_health_summary = _libs["libWormAPI"].get(
+        "worm_flash_health_summary", "cdecl"
+    )
+    worm_flash_health_summary.argtypes = [
+        POINTER(WormContext),
+        POINTER(uint32_t),
+        POINTER(uint8_t),
+        POINTER(uint8_t),
+        POINTER(uint8_t),
+    ]
     worm_flash_health_summary.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1087
 if _libs["libWormAPI"].has("worm_flash_health_needs_replacement", "cdecl"):
-    worm_flash_health_needs_replacement = _libs["libWormAPI"].get("worm_flash_health_needs_replacement", "cdecl")
+    worm_flash_health_needs_replacement = _libs["libWormAPI"].get(
+        "worm_flash_health_needs_replacement", "cdecl"
+    )
     worm_flash_health_needs_replacement.argtypes = [uint32_t, uint8_t, uint8_t]
     worm_flash_health_needs_replacement.restype = c_int
 
@@ -1446,7 +1544,18 @@ if _libs["libWormAPI"].has("worm_tse_factoryReset", "cdecl"):
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1190
 if _libs["libWormAPI"].has("worm_tse_setup", "cdecl"):
     worm_tse_setup = _libs["libWormAPI"].get("worm_tse_setup", "cdecl")
-    worm_tse_setup.argtypes = [POINTER(WormContext), POINTER(c_ubyte), c_int, POINTER(c_ubyte), c_int, POINTER(c_ubyte), c_int, POINTER(c_ubyte), c_int, String]
+    worm_tse_setup.argtypes = [
+        POINTER(WormContext),
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(c_ubyte),
+        c_int,
+        String,
+    ]
     worm_tse_setup.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1209
@@ -1493,43 +1602,70 @@ if _libs["libWormAPI"].has("worm_tse_updateTime", "cdecl"):
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1337
 if _libs["libWormAPI"].has("worm_tse_firmwareUpdate_check", "cdecl"):
-    worm_tse_firmwareUpdate_check = _libs["libWormAPI"].get("worm_tse_firmwareUpdate_check", "cdecl")
-    worm_tse_firmwareUpdate_check.argtypes = [POINTER(WormContext), POINTER(c_int), String, c_int]
+    worm_tse_firmwareUpdate_check = _libs["libWormAPI"].get(
+        "worm_tse_firmwareUpdate_check", "cdecl"
+    )
+    worm_tse_firmwareUpdate_check.argtypes = [
+        POINTER(WormContext),
+        POINTER(c_int),
+        String,
+        c_int,
+    ]
     worm_tse_firmwareUpdate_check.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1358
 if _libs["libWormAPI"].has("worm_tse_firmwareUpdate_isBundledAvailable", "cdecl"):
-    worm_tse_firmwareUpdate_isBundledAvailable = _libs["libWormAPI"].get("worm_tse_firmwareUpdate_isBundledAvailable", "cdecl")
-    worm_tse_firmwareUpdate_isBundledAvailable.argtypes = [POINTER(WormContext), POINTER(WormTseFirmwareUpdate)]
+    worm_tse_firmwareUpdate_isBundledAvailable = _libs["libWormAPI"].get(
+        "worm_tse_firmwareUpdate_isBundledAvailable", "cdecl"
+    )
+    worm_tse_firmwareUpdate_isBundledAvailable.argtypes = [
+        POINTER(WormContext),
+        POINTER(WormTseFirmwareUpdate),
+    ]
     worm_tse_firmwareUpdate_isBundledAvailable.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1388
 if _libs["libWormAPI"].has("worm_tse_firmwareUpdate_applyBundled", "cdecl"):
-    worm_tse_firmwareUpdate_applyBundled = _libs["libWormAPI"].get("worm_tse_firmwareUpdate_applyBundled", "cdecl")
+    worm_tse_firmwareUpdate_applyBundled = _libs["libWormAPI"].get(
+        "worm_tse_firmwareUpdate_applyBundled", "cdecl"
+    )
     worm_tse_firmwareUpdate_applyBundled.argtypes = [POINTER(WormContext)]
     worm_tse_firmwareUpdate_applyBundled.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1407
 if _libs["libWormAPI"].has("worm_tse_firmwareUpdate_transfer", "cdecl"):
-    worm_tse_firmwareUpdate_transfer = _libs["libWormAPI"].get("worm_tse_firmwareUpdate_transfer", "cdecl")
-    worm_tse_firmwareUpdate_transfer.argtypes = [POINTER(WormContext), uint32_t, POINTER(c_ubyte), c_int]
+    worm_tse_firmwareUpdate_transfer = _libs["libWormAPI"].get(
+        "worm_tse_firmwareUpdate_transfer", "cdecl"
+    )
+    worm_tse_firmwareUpdate_transfer.argtypes = [
+        POINTER(WormContext),
+        uint32_t,
+        POINTER(c_ubyte),
+        c_int,
+    ]
     worm_tse_firmwareUpdate_transfer.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1447
 if _libs["libWormAPI"].has("worm_tse_firmwareUpdate_apply", "cdecl"):
-    worm_tse_firmwareUpdate_apply = _libs["libWormAPI"].get("worm_tse_firmwareUpdate_apply", "cdecl")
+    worm_tse_firmwareUpdate_apply = _libs["libWormAPI"].get(
+        "worm_tse_firmwareUpdate_apply", "cdecl"
+    )
     worm_tse_firmwareUpdate_apply.argtypes = [POINTER(WormContext), uint32_t]
     worm_tse_firmwareUpdate_apply.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1476
 if _libs["libWormAPI"].has("worm_tse_enableExportIfCspTestFails", "cdecl"):
-    worm_tse_enableExportIfCspTestFails = _libs["libWormAPI"].get("worm_tse_enableExportIfCspTestFails", "cdecl")
+    worm_tse_enableExportIfCspTestFails = _libs["libWormAPI"].get(
+        "worm_tse_enableExportIfCspTestFails", "cdecl"
+    )
     worm_tse_enableExportIfCspTestFails.argtypes = [POINTER(WormContext)]
     worm_tse_enableExportIfCspTestFails.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1502
 if _libs["libWormAPI"].has("worm_tse_disableExportIfCspTestFails", "cdecl"):
-    worm_tse_disableExportIfCspTestFails = _libs["libWormAPI"].get("worm_tse_disableExportIfCspTestFails", "cdecl")
+    worm_tse_disableExportIfCspTestFails = _libs["libWormAPI"].get(
+        "worm_tse_disableExportIfCspTestFails", "cdecl"
+    )
     worm_tse_disableExportIfCspTestFails.argtypes = [POINTER(WormContext)]
     worm_tse_disableExportIfCspTestFails.restype = WormError
 
@@ -1541,41 +1677,59 @@ if _libs["libWormAPI"].has("worm_tse_runSelfTest", "cdecl"):
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1553
 if _libs["libWormAPI"].has("worm_tse_registerClient", "cdecl"):
-    worm_tse_registerClient = _libs["libWormAPI"].get("worm_tse_registerClient", "cdecl")
+    worm_tse_registerClient = _libs["libWormAPI"].get(
+        "worm_tse_registerClient", "cdecl"
+    )
     worm_tse_registerClient.argtypes = [POINTER(WormContext), String]
     worm_tse_registerClient.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1569
 if _libs["libWormAPI"].has("worm_tse_deregisterClient", "cdecl"):
-    worm_tse_deregisterClient = _libs["libWormAPI"].get("worm_tse_deregisterClient", "cdecl")
+    worm_tse_deregisterClient = _libs["libWormAPI"].get(
+        "worm_tse_deregisterClient", "cdecl"
+    )
     worm_tse_deregisterClient.argtypes = [POINTER(WormContext), String]
     worm_tse_deregisterClient.restype = WormError
+
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1578
 class struct_anon_7(Structure):
     pass
 
+
 struct_anon_7.__slots__ = [
-    'amount',
-    'clientIds',
+    "amount",
+    "clientIds",
 ]
 struct_anon_7._fields_ = [
-    ('amount', c_int),
-    ('clientIds', (c_char * int(31)) * int(16)),
+    ("amount", c_int),
+    ("clientIds", (c_char * int(31)) * int(16)),
 ]
 
-WormRegisteredClients = struct_anon_7# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1578
+WormRegisteredClients = struct_anon_7  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1578
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1597
 if _libs["libWormAPI"].has("worm_tse_listRegisteredClients", "cdecl"):
-    worm_tse_listRegisteredClients = _libs["libWormAPI"].get("worm_tse_listRegisteredClients", "cdecl")
-    worm_tse_listRegisteredClients.argtypes = [POINTER(WormContext), c_int, POINTER(WormRegisteredClients)]
+    worm_tse_listRegisteredClients = _libs["libWormAPI"].get(
+        "worm_tse_listRegisteredClients", "cdecl"
+    )
+    worm_tse_listRegisteredClients.argtypes = [
+        POINTER(WormContext),
+        c_int,
+        POINTER(WormRegisteredClients),
+    ]
     worm_tse_listRegisteredClients.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1657
 if _libs["libWormAPI"].has("worm_user_login", "cdecl"):
     worm_user_login = _libs["libWormAPI"].get("worm_user_login", "cdecl")
-    worm_user_login.argtypes = [POINTER(WormContext), WormUserId, POINTER(c_ubyte), c_int, POINTER(c_int)]
+    worm_user_login.argtypes = [
+        POINTER(WormContext),
+        WormUserId,
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(c_int),
+    ]
     worm_user_login.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1670
@@ -1587,116 +1741,225 @@ if _libs["libWormAPI"].has("worm_user_logout", "cdecl"):
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1688
 if _libs["libWormAPI"].has("worm_user_unblock", "cdecl"):
     worm_user_unblock = _libs["libWormAPI"].get("worm_user_unblock", "cdecl")
-    worm_user_unblock.argtypes = [POINTER(WormContext), WormUserId, POINTER(c_ubyte), c_int, POINTER(c_ubyte), c_int, POINTER(c_int)]
+    worm_user_unblock.argtypes = [
+        POINTER(WormContext),
+        WormUserId,
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(c_int),
+    ]
     worm_user_unblock.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1708
 if _libs["libWormAPI"].has("worm_user_change_puk", "cdecl"):
     worm_user_change_puk = _libs["libWormAPI"].get("worm_user_change_puk", "cdecl")
-    worm_user_change_puk.argtypes = [POINTER(WormContext), POINTER(c_ubyte), c_int, POINTER(c_ubyte), c_int, POINTER(c_int)]
+    worm_user_change_puk.argtypes = [
+        POINTER(WormContext),
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(c_int),
+    ]
     worm_user_change_puk.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1727
 if _libs["libWormAPI"].has("worm_user_change_pin", "cdecl"):
     worm_user_change_pin = _libs["libWormAPI"].get("worm_user_change_pin", "cdecl")
-    worm_user_change_pin.argtypes = [POINTER(WormContext), WormUserId, POINTER(c_ubyte), c_int, POINTER(c_ubyte), c_int, POINTER(c_int)]
+    worm_user_change_pin.argtypes = [
+        POINTER(WormContext),
+        WormUserId,
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(c_int),
+    ]
     worm_user_change_pin.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1753
 if _libs["libWormAPI"].has("worm_user_deriveInitialCredentials", "cdecl"):
-    worm_user_deriveInitialCredentials = _libs["libWormAPI"].get("worm_user_deriveInitialCredentials", "cdecl")
-    worm_user_deriveInitialCredentials.argtypes = [POINTER(WormContext), POINTER(c_ubyte), c_int, POINTER(c_ubyte), c_int, POINTER(c_ubyte), c_int, POINTER(c_ubyte), c_int]
+    worm_user_deriveInitialCredentials = _libs["libWormAPI"].get(
+        "worm_user_deriveInitialCredentials", "cdecl"
+    )
+    worm_user_deriveInitialCredentials.argtypes = [
+        POINTER(WormContext),
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(c_ubyte),
+        c_int,
+    ]
     worm_user_deriveInitialCredentials.restype = WormError
+
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1804
 class struct_WormTransactionResponse(Structure):
     pass
 
-WormTransactionResponse = struct_WormTransactionResponse# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1804
+
+WormTransactionResponse = struct_WormTransactionResponse  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1804
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1808
 if _libs["libWormAPI"].has("worm_transaction_openStore", "cdecl"):
-    worm_transaction_openStore = _libs["libWormAPI"].get("worm_transaction_openStore", "cdecl")
+    worm_transaction_openStore = _libs["libWormAPI"].get(
+        "worm_transaction_openStore", "cdecl"
+    )
     worm_transaction_openStore.argtypes = [POINTER(WormContext), worm_uint]
     worm_transaction_openStore.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1827
 if _libs["libWormAPI"].has("worm_transaction_start", "cdecl"):
     worm_transaction_start = _libs["libWormAPI"].get("worm_transaction_start", "cdecl")
-    worm_transaction_start.argtypes = [POINTER(WormContext), String, POINTER(c_ubyte), worm_uint, String, POINTER(WormTransactionResponse)]
+    worm_transaction_start.argtypes = [
+        POINTER(WormContext),
+        String,
+        POINTER(c_ubyte),
+        worm_uint,
+        String,
+        POINTER(WormTransactionResponse),
+    ]
     worm_transaction_start.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1853
 if _libs["libWormAPI"].has("worm_transaction_update", "cdecl"):
-    worm_transaction_update = _libs["libWormAPI"].get("worm_transaction_update", "cdecl")
-    worm_transaction_update.argtypes = [POINTER(WormContext), String, worm_uint, POINTER(c_ubyte), worm_uint, String, POINTER(WormTransactionResponse)]
+    worm_transaction_update = _libs["libWormAPI"].get(
+        "worm_transaction_update", "cdecl"
+    )
+    worm_transaction_update.argtypes = [
+        POINTER(WormContext),
+        String,
+        worm_uint,
+        POINTER(c_ubyte),
+        worm_uint,
+        String,
+        POINTER(WormTransactionResponse),
+    ]
     worm_transaction_update.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1878
 if _libs["libWormAPI"].has("worm_transaction_finish", "cdecl"):
-    worm_transaction_finish = _libs["libWormAPI"].get("worm_transaction_finish", "cdecl")
-    worm_transaction_finish.argtypes = [POINTER(WormContext), String, worm_uint, POINTER(c_ubyte), worm_uint, String, POINTER(WormTransactionResponse)]
+    worm_transaction_finish = _libs["libWormAPI"].get(
+        "worm_transaction_finish", "cdecl"
+    )
+    worm_transaction_finish.argtypes = [
+        POINTER(WormContext),
+        String,
+        worm_uint,
+        POINTER(c_ubyte),
+        worm_uint,
+        String,
+        POINTER(WormTransactionResponse),
+    ]
     worm_transaction_finish.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1898
 if _libs["libWormAPI"].has("worm_transaction_lastResponse", "cdecl"):
-    worm_transaction_lastResponse = _libs["libWormAPI"].get("worm_transaction_lastResponse", "cdecl")
-    worm_transaction_lastResponse.argtypes = [POINTER(WormContext), String, POINTER(WormTransactionResponse)]
+    worm_transaction_lastResponse = _libs["libWormAPI"].get(
+        "worm_transaction_lastResponse", "cdecl"
+    )
+    worm_transaction_lastResponse.argtypes = [
+        POINTER(WormContext),
+        String,
+        POINTER(WormTransactionResponse),
+    ]
     worm_transaction_lastResponse.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1925
 if _libs["libWormAPI"].has("worm_transaction_listStartedTransactions", "cdecl"):
-    worm_transaction_listStartedTransactions = _libs["libWormAPI"].get("worm_transaction_listStartedTransactions", "cdecl")
-    worm_transaction_listStartedTransactions.argtypes = [POINTER(WormContext), String, c_int, POINTER(worm_uint), c_int, POINTER(c_int)]
+    worm_transaction_listStartedTransactions = _libs["libWormAPI"].get(
+        "worm_transaction_listStartedTransactions", "cdecl"
+    )
+    worm_transaction_listStartedTransactions.argtypes = [
+        POINTER(WormContext),
+        String,
+        c_int,
+        POINTER(worm_uint),
+        c_int,
+        POINTER(c_int),
+    ]
     worm_transaction_listStartedTransactions.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1940
 if _libs["libWormAPI"].has("worm_transaction_response_new", "cdecl"):
-    worm_transaction_response_new = _libs["libWormAPI"].get("worm_transaction_response_new", "cdecl")
+    worm_transaction_response_new = _libs["libWormAPI"].get(
+        "worm_transaction_response_new", "cdecl"
+    )
     worm_transaction_response_new.argtypes = [POINTER(WormContext)]
     worm_transaction_response_new.restype = POINTER(WormTransactionResponse)
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1951
 if _libs["libWormAPI"].has("worm_transaction_response_free", "cdecl"):
-    worm_transaction_response_free = _libs["libWormAPI"].get("worm_transaction_response_free", "cdecl")
+    worm_transaction_response_free = _libs["libWormAPI"].get(
+        "worm_transaction_response_free", "cdecl"
+    )
     worm_transaction_response_free.argtypes = [POINTER(WormTransactionResponse)]
     worm_transaction_response_free.restype = None
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1962
 if _libs["libWormAPI"].has("worm_transaction_response_logTime", "cdecl"):
-    worm_transaction_response_logTime = _libs["libWormAPI"].get("worm_transaction_response_logTime", "cdecl")
+    worm_transaction_response_logTime = _libs["libWormAPI"].get(
+        "worm_transaction_response_logTime", "cdecl"
+    )
     worm_transaction_response_logTime.argtypes = [POINTER(WormTransactionResponse)]
     worm_transaction_response_logTime.restype = worm_uint
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1976
 if _libs["libWormAPI"].has("worm_transaction_response_serialNumber", "cdecl"):
-    worm_transaction_response_serialNumber = _libs["libWormAPI"].get("worm_transaction_response_serialNumber", "cdecl")
-    worm_transaction_response_serialNumber.argtypes = [POINTER(WormTransactionResponse), POINTER(POINTER(c_ubyte)), POINTER(worm_uint)]
+    worm_transaction_response_serialNumber = _libs["libWormAPI"].get(
+        "worm_transaction_response_serialNumber", "cdecl"
+    )
+    worm_transaction_response_serialNumber.argtypes = [
+        POINTER(WormTransactionResponse),
+        POINTER(POINTER(c_ubyte)),
+        POINTER(worm_uint),
+    ]
     worm_transaction_response_serialNumber.restype = None
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1988
 if _libs["libWormAPI"].has("worm_transaction_response_signatureCounter", "cdecl"):
-    worm_transaction_response_signatureCounter = _libs["libWormAPI"].get("worm_transaction_response_signatureCounter", "cdecl")
-    worm_transaction_response_signatureCounter.argtypes = [POINTER(WormTransactionResponse)]
+    worm_transaction_response_signatureCounter = _libs["libWormAPI"].get(
+        "worm_transaction_response_signatureCounter", "cdecl"
+    )
+    worm_transaction_response_signatureCounter.argtypes = [
+        POINTER(WormTransactionResponse)
+    ]
     worm_transaction_response_signatureCounter.restype = worm_uint
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2001
 if _libs["libWormAPI"].has("worm_transaction_response_signature", "cdecl"):
-    worm_transaction_response_signature = _libs["libWormAPI"].get("worm_transaction_response_signature", "cdecl")
-    worm_transaction_response_signature.argtypes = [POINTER(WormTransactionResponse), POINTER(POINTER(c_ubyte)), POINTER(worm_uint)]
+    worm_transaction_response_signature = _libs["libWormAPI"].get(
+        "worm_transaction_response_signature", "cdecl"
+    )
+    worm_transaction_response_signature.argtypes = [
+        POINTER(WormTransactionResponse),
+        POINTER(POINTER(c_ubyte)),
+        POINTER(worm_uint),
+    ]
     worm_transaction_response_signature.restype = None
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2015
 if _libs["libWormAPI"].has("worm_transaction_response_transactionNumber", "cdecl"):
-    worm_transaction_response_transactionNumber = _libs["libWormAPI"].get("worm_transaction_response_transactionNumber", "cdecl")
-    worm_transaction_response_transactionNumber.argtypes = [POINTER(WormTransactionResponse)]
+    worm_transaction_response_transactionNumber = _libs["libWormAPI"].get(
+        "worm_transaction_response_transactionNumber", "cdecl"
+    )
+    worm_transaction_response_transactionNumber.argtypes = [
+        POINTER(WormTransactionResponse)
+    ]
     worm_transaction_response_transactionNumber.restype = worm_uint
+
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2051
 class struct_WormEntry(Structure):
     pass
 
-WormEntry = struct_WormEntry# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2051
+
+WormEntry = struct_WormEntry  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2051
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2062
 if _libs["libWormAPI"].has("worm_entry_new", "cdecl"):
@@ -1712,13 +1975,17 @@ if _libs["libWormAPI"].has("worm_entry_free", "cdecl"):
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2086
 if _libs["libWormAPI"].has("worm_entry_iterate_first", "cdecl"):
-    worm_entry_iterate_first = _libs["libWormAPI"].get("worm_entry_iterate_first", "cdecl")
+    worm_entry_iterate_first = _libs["libWormAPI"].get(
+        "worm_entry_iterate_first", "cdecl"
+    )
     worm_entry_iterate_first.argtypes = [POINTER(WormEntry)]
     worm_entry_iterate_first.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2101
 if _libs["libWormAPI"].has("worm_entry_iterate_last", "cdecl"):
-    worm_entry_iterate_last = _libs["libWormAPI"].get("worm_entry_iterate_last", "cdecl")
+    worm_entry_iterate_last = _libs["libWormAPI"].get(
+        "worm_entry_iterate_last", "cdecl"
+    )
     worm_entry_iterate_last.argtypes = [POINTER(WormEntry)]
     worm_entry_iterate_last.restype = WormError
 
@@ -1730,7 +1997,9 @@ if _libs["libWormAPI"].has("worm_entry_iterate_id", "cdecl"):
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2129
 if _libs["libWormAPI"].has("worm_entry_iterate_next", "cdecl"):
-    worm_entry_iterate_next = _libs["libWormAPI"].get("worm_entry_iterate_next", "cdecl")
+    worm_entry_iterate_next = _libs["libWormAPI"].get(
+        "worm_entry_iterate_next", "cdecl"
+    )
     worm_entry_iterate_next.argtypes = [POINTER(WormEntry)]
     worm_entry_iterate_next.restype = WormError
 
@@ -1754,113 +2023,214 @@ if _libs["libWormAPI"].has("worm_entry_type", "cdecl"):
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2176
 if _libs["libWormAPI"].has("worm_entry_logMessageLength", "cdecl"):
-    worm_entry_logMessageLength = _libs["libWormAPI"].get("worm_entry_logMessageLength", "cdecl")
+    worm_entry_logMessageLength = _libs["libWormAPI"].get(
+        "worm_entry_logMessageLength", "cdecl"
+    )
     worm_entry_logMessageLength.argtypes = [POINTER(WormEntry)]
     worm_entry_logMessageLength.restype = worm_uint
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2187
 if _libs["libWormAPI"].has("worm_entry_readLogMessage", "cdecl"):
-    worm_entry_readLogMessage = _libs["libWormAPI"].get("worm_entry_readLogMessage", "cdecl")
-    worm_entry_readLogMessage.argtypes = [POINTER(WormEntry), POINTER(c_ubyte), worm_uint]
+    worm_entry_readLogMessage = _libs["libWormAPI"].get(
+        "worm_entry_readLogMessage", "cdecl"
+    )
+    worm_entry_readLogMessage.argtypes = [
+        POINTER(WormEntry),
+        POINTER(c_ubyte),
+        worm_uint,
+    ]
     worm_entry_readLogMessage.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2197
 if _libs["libWormAPI"].has("worm_entry_processDataLength", "cdecl"):
-    worm_entry_processDataLength = _libs["libWormAPI"].get("worm_entry_processDataLength", "cdecl")
+    worm_entry_processDataLength = _libs["libWormAPI"].get(
+        "worm_entry_processDataLength", "cdecl"
+    )
     worm_entry_processDataLength.argtypes = [POINTER(WormEntry)]
     worm_entry_processDataLength.restype = worm_uint
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2212
 if _libs["libWormAPI"].has("worm_entry_readProcessData", "cdecl"):
-    worm_entry_readProcessData = _libs["libWormAPI"].get("worm_entry_readProcessData", "cdecl")
-    worm_entry_readProcessData.argtypes = [POINTER(WormEntry), worm_uint, POINTER(c_ubyte), worm_uint]
+    worm_entry_readProcessData = _libs["libWormAPI"].get(
+        "worm_entry_readProcessData", "cdecl"
+    )
+    worm_entry_readProcessData.argtypes = [
+        POINTER(WormEntry),
+        worm_uint,
+        POINTER(c_ubyte),
+        worm_uint,
+    ]
     worm_entry_readProcessData.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2243
 if _libs["libWormAPI"].has("worm_getLogMessageCertificate", "cdecl"):
-    worm_getLogMessageCertificate = _libs["libWormAPI"].get("worm_getLogMessageCertificate", "cdecl")
-    worm_getLogMessageCertificate.argtypes = [POINTER(WormContext), POINTER(c_ubyte), POINTER(uint32_t)]
+    worm_getLogMessageCertificate = _libs["libWormAPI"].get(
+        "worm_getLogMessageCertificate", "cdecl"
+    )
+    worm_getLogMessageCertificate.argtypes = [
+        POINTER(WormContext),
+        POINTER(c_ubyte),
+        POINTER(uint32_t),
+    ]
     worm_getLogMessageCertificate.restype = WormError
 
-WormExportTarCallback = CFUNCTYPE(UNCHECKED(c_int), POINTER(c_ubyte), c_uint, POINTER(None))# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2257
+WormExportTarCallback = CFUNCTYPE(
+    UNCHECKED(c_int), POINTER(c_ubyte), c_uint, POINTER(None)
+)  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2257
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2281
 if _libs["libWormAPI"].has("worm_export_tar", "cdecl"):
     worm_export_tar = _libs["libWormAPI"].get("worm_export_tar", "cdecl")
-    worm_export_tar.argtypes = [POINTER(WormContext), WormExportTarCallback, POINTER(None)]
+    worm_export_tar.argtypes = [
+        POINTER(WormContext),
+        WormExportTarCallback,
+        POINTER(None),
+    ]
     worm_export_tar.restype = WormError
 
-WormExportTarIncrementalCallback = CFUNCTYPE(UNCHECKED(c_int), POINTER(c_ubyte), c_uint, uint32_t, uint32_t, POINTER(None))# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2303
+WormExportTarIncrementalCallback = CFUNCTYPE(
+    UNCHECKED(c_int), POINTER(c_ubyte), c_uint, uint32_t, uint32_t, POINTER(None)
+)  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2303
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2315
 if _libs["libWormAPI"].has("worm_export_tar_incremental", "cdecl"):
-    worm_export_tar_incremental = _libs["libWormAPI"].get("worm_export_tar_incremental", "cdecl")
-    worm_export_tar_incremental.argtypes = [POINTER(WormContext), POINTER(c_ubyte), c_int, POINTER(c_ubyte), c_int, POINTER(worm_uint), POINTER(worm_uint), WormExportTarIncrementalCallback, POINTER(None)]
+    worm_export_tar_incremental = _libs["libWormAPI"].get(
+        "worm_export_tar_incremental", "cdecl"
+    )
+    worm_export_tar_incremental.argtypes = [
+        POINTER(WormContext),
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(worm_uint),
+        POINTER(worm_uint),
+        WormExportTarIncrementalCallback,
+        POINTER(None),
+    ]
     worm_export_tar_incremental.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2454
 if _libs["libWormAPI"].has("worm_export_tar_incremental_ex", "cdecl"):
-    worm_export_tar_incremental_ex = _libs["libWormAPI"].get("worm_export_tar_incremental_ex", "cdecl")
-    worm_export_tar_incremental_ex.argtypes = [POINTER(WormContext), POINTER(c_ubyte), c_int, POINTER(c_ubyte), c_int, worm_uint, POINTER(c_int), POINTER(worm_uint), POINTER(worm_uint), WormExportTarIncrementalCallback, POINTER(None)]
+    worm_export_tar_incremental_ex = _libs["libWormAPI"].get(
+        "worm_export_tar_incremental_ex", "cdecl"
+    )
+    worm_export_tar_incremental_ex.argtypes = [
+        POINTER(WormContext),
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(c_ubyte),
+        c_int,
+        worm_uint,
+        POINTER(c_int),
+        POINTER(worm_uint),
+        POINTER(worm_uint),
+        WormExportTarIncrementalCallback,
+        POINTER(None),
+    ]
     worm_export_tar_incremental_ex.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2482
 if _libs["libWormAPI"].has("worm_export_tar_incremental_sizeInSectors", "cdecl"):
-    worm_export_tar_incremental_sizeInSectors = _libs["libWormAPI"].get("worm_export_tar_incremental_sizeInSectors", "cdecl")
-    worm_export_tar_incremental_sizeInSectors.argtypes = [POINTER(WormContext), POINTER(c_ubyte), c_int, POINTER(worm_uint)]
+    worm_export_tar_incremental_sizeInSectors = _libs["libWormAPI"].get(
+        "worm_export_tar_incremental_sizeInSectors", "cdecl"
+    )
+    worm_export_tar_incremental_sizeInSectors.argtypes = [
+        POINTER(WormContext),
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(worm_uint),
+    ]
     worm_export_tar_incremental_sizeInSectors.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2507
 if _libs["libWormAPI"].has("worm_export_tar_incremental_size", "cdecl"):
-    worm_export_tar_incremental_size = _libs["libWormAPI"].get("worm_export_tar_incremental_size", "cdecl")
-    worm_export_tar_incremental_size.argtypes = [POINTER(WormContext), POINTER(c_ubyte), c_int, POINTER(uint64_t)]
+    worm_export_tar_incremental_size = _libs["libWormAPI"].get(
+        "worm_export_tar_incremental_size", "cdecl"
+    )
+    worm_export_tar_incremental_size.argtypes = [
+        POINTER(WormContext),
+        POINTER(c_ubyte),
+        c_int,
+        POINTER(uint64_t),
+    ]
     worm_export_tar_incremental_size.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2534
 if _libs["libWormAPI"].has("worm_export_tar_filtered_time", "cdecl"):
-    worm_export_tar_filtered_time = _libs["libWormAPI"].get("worm_export_tar_filtered_time", "cdecl")
-    worm_export_tar_filtered_time.argtypes = [POINTER(WormContext), worm_uint, worm_uint, String, WormExportTarCallback, POINTER(None)]
+    worm_export_tar_filtered_time = _libs["libWormAPI"].get(
+        "worm_export_tar_filtered_time", "cdecl"
+    )
+    worm_export_tar_filtered_time.argtypes = [
+        POINTER(WormContext),
+        worm_uint,
+        worm_uint,
+        String,
+        WormExportTarCallback,
+        POINTER(None),
+    ]
     worm_export_tar_filtered_time.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2557
 if _libs["libWormAPI"].has("worm_export_tar_filtered_transaction", "cdecl"):
-    worm_export_tar_filtered_transaction = _libs["libWormAPI"].get("worm_export_tar_filtered_transaction", "cdecl")
-    worm_export_tar_filtered_transaction.argtypes = [POINTER(WormContext), worm_uint, worm_uint, String, WormExportTarCallback, POINTER(None)]
+    worm_export_tar_filtered_transaction = _libs["libWormAPI"].get(
+        "worm_export_tar_filtered_transaction", "cdecl"
+    )
+    worm_export_tar_filtered_transaction.argtypes = [
+        POINTER(WormContext),
+        worm_uint,
+        worm_uint,
+        String,
+        WormExportTarCallback,
+        POINTER(None),
+    ]
     worm_export_tar_filtered_transaction.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2574
 if _libs["libWormAPI"].has("worm_export_lcm_file", "cdecl"):
     worm_export_lcm_file = _libs["libWormAPI"].get("worm_export_lcm_file", "cdecl")
-    worm_export_lcm_file.argtypes = [POINTER(WormContext), String, POINTER(POINTER(c_char))]
+    worm_export_lcm_file.argtypes = [
+        POINTER(WormContext),
+        String,
+        POINTER(POINTER(c_char)),
+    ]
     worm_export_lcm_file.restype = WormError
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2589
 if _libs["libWormAPI"].has("worm_export_deleteStoredData", "cdecl"):
-    worm_export_deleteStoredData = _libs["libWormAPI"].get("worm_export_deleteStoredData", "cdecl")
+    worm_export_deleteStoredData = _libs["libWormAPI"].get(
+        "worm_export_deleteStoredData", "cdecl"
+    )
     worm_export_deleteStoredData.argtypes = [POINTER(WormContext)]
     worm_export_deleteStoredData.restype = WormError
+
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2598
 class struct_anon_8(Structure):
     pass
 
+
 struct_anon_8.__slots__ = [
-    'amount',
-    'serialNumber',
+    "amount",
+    "serialNumber",
 ]
 struct_anon_8._fields_ = [
-    ('amount', c_int),
-    ('serialNumber', (c_ubyte * int(32)) * int(16)),
+    ("amount", c_int),
+    ("serialNumber", (c_ubyte * int(32)) * int(16)),
 ]
 
-WormSerialNumberList = struct_anon_8# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2598
+WormSerialNumberList = struct_anon_8  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2598
 
 # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2617
 for _lib in _libs.values():
     if not _lib.has("worm_lantse_listConnectedTses", "cdecl"):
         continue
     worm_lantse_listConnectedTses = _lib.get("worm_lantse_listConnectedTses", "cdecl")
-    worm_lantse_listConnectedTses.argtypes = [POINTER(WormContext), c_int, POINTER(WormSerialNumberList)]
+    worm_lantse_listConnectedTses.argtypes = [
+        POINTER(WormContext),
+        c_int,
+        POINTER(WormSerialNumberList),
+    ]
     worm_lantse_listConnectedTses.restype = WormError
     break
 
@@ -1876,15 +2246,14 @@ try:
 except:
     pass
 
-WormContext = struct_WormContext# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 309
+WormContext = struct_WormContext  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 309
 
-WormInfo = struct_WormInfo# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 597
+WormInfo = struct_WormInfo  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 597
 
-WormTransactionResponse = struct_WormTransactionResponse# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1804
+WormTransactionResponse = struct_WormTransactionResponse  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 1804
 
-WormEntry = struct_WormEntry# /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2051
+WormEntry = struct_WormEntry  # /tmp/Swissbit_TSE_v5.9.1_LAN_TSE_v2.0.11/sdk-offline/sdk/c/include/WormDLL/WormDLL.h: 2051
 
 # No inserted files
 
 # No prefix-stripping
-
