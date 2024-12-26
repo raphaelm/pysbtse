@@ -1,5 +1,6 @@
 import asyncio
 import base64
+import contextlib
 import logging
 import os
 import time
@@ -38,6 +39,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 worm_context: Optional[BaseWormContext] = None
+worm_lock = asyncio.Lock()
 last_time_update: float = 0.0
 loop_task = None
 logger = logging.getLogger(__name__)
@@ -78,40 +80,42 @@ async def _update_time_loop():
             pass
 
 
-def _ensure_worm_context(client_id, require_self_test=True) -> BaseWormContext:
+@contextlib.asynccontextmanager
+async def _worm_context(client_id, require_self_test=True) -> BaseWormContext:
     global worm_context
 
-    if not worm_context:
-        logger.info("Connecting to TSE…")
-        if os.environ["SBTSE_PATH"]:
-            worm_context = LocalWormContext(os.environ["SBTSE_PATH"])
-        else:
-            worm_context = LANWormContext(
-                os.environ["SBTSE_URL"], os.environ["SBTSE_API_KEY"]
-            )
-            worm_context.select_tse(os.environ["SBTSE_TSE"])
-        worm_context.keepalive_configure(2000)
-        logger.info("Connected to TSE.")
+    async with worm_lock:
+        if not worm_context:
+            logger.info("Connecting to TSE…")
+            if os.environ["SBTSE_PATH"]:
+                worm_context = LocalWormContext(os.environ["SBTSE_PATH"])
+            else:
+                worm_context = LANWormContext(
+                    os.environ["SBTSE_URL"], os.environ["SBTSE_API_KEY"]
+                )
+                worm_context.select_tse(os.environ["SBTSE_TSE"])
+            worm_context.keepalive_configure(2000)
+            logger.info("Connected to TSE.")
 
-    info = worm_context.info()
+        info = worm_context.info()
 
-    if not info["hasPassedSelfTest"] and require_self_test:
-        if client_id:
-            logger.info(f"Running self test with client ID {client_id}...")
-            worm_context.run_self_test(client_id)
-            logger.info("Self test completed.")
-        else:
-            logger.info(f"Running self test with client ID FAKE...")
-            try:
-                worm_context.run_self_test("FAKE")
-            except errors.WormErrorClientNotRegistered:
-                pass
-            logger.info("Self test completed.")
+        if not info["hasPassedSelfTest"] and require_self_test:
+            if client_id:
+                logger.info(f"Running self test with client ID {client_id}...")
+                worm_context.run_self_test(client_id)
+                logger.info("Self test completed.")
+            else:
+                logger.info(f"Running self test with client ID FAKE...")
+                try:
+                    worm_context.run_self_test("FAKE")
+                except errors.WormErrorClientNotRegistered:
+                    pass
+                logger.info("Self test completed.")
 
-    if time.time() - last_time_update > info["maxTimeSynchronizationDelay"] * 0.8:
-        _update_time(info)
+        if time.time() - last_time_update > info["maxTimeSynchronizationDelay"] * 0.8:
+            _update_time(info)
 
-    return worm_context
+        yield worm_context
 
 
 class InfoResponse(BaseModel):
@@ -151,19 +155,19 @@ class InfoResponse(BaseModel):
 
 
 @app.get("/info", summary="Retrieve information about the TSE")
-def info() -> InfoResponse:
-    worm = _ensure_worm_context("TESTCLIENT", require_self_test=False)
-    return InfoResponse(
-        **{
-            k: base64.b64encode(v) if isinstance(v, bytes) else v
-            for k, v in {
-                **worm.info(),
-                **worm.flash_health(),
-                "logTimeFormat": log_time_format(),
-                "signatureAlgorithm": signature_algorithm(),
-            }.items()
-        }
-    )
+async def info() -> InfoResponse:
+    async with _worm_context("TESTCLIENT", require_self_test=False) as worm:
+        return InfoResponse(
+            **{
+                k: base64.b64encode(v) if isinstance(v, bytes) else v
+                for k, v in {
+                    **worm.info(),
+                    **worm.flash_health(),
+                    "logTimeFormat": log_time_format(),
+                    "signatureAlgorithm": signature_algorithm(),
+                }.items()
+            }
+        )
 
 
 class HealthResponse(BaseModel):
@@ -175,17 +179,17 @@ class HealthResponse(BaseModel):
 
 
 @app.get("/health", summary="Retrieve flash health information about the TSE")
-def health() -> HealthResponse:
-    worm = _ensure_worm_context(None, require_self_test=True)
-    return HealthResponse(**{k: v for k, v in worm.flash_health().items()})
+async def health() -> HealthResponse:
+    async with _worm_context(None, require_self_test=True) as worm:
+        return HealthResponse(**{k: v for k, v in worm.flash_health().items()})
 
 
 @app.get("/certificate", summary="Retrieve the certificate used for signing")
-def info():
-    worm = _ensure_worm_context("TESTCLIENT", require_self_test=False)
-    return Response(
-        worm.get_log_message_certificate(), headers={"Content-Type": "text/plain"}
-    )
+async def info():
+    async with _worm_context("TESTCLIENT", require_self_test=False) as worm:
+        return Response(
+            worm.get_log_message_certificate(), headers={"Content-Type": "text/plain"}
+        )
 
 
 class TransactionInput(BaseModel):
@@ -203,44 +207,44 @@ class TransactionResponse(BaseModel):
 
 
 @app.post("/transactions/", summary="Start a transaction")
-def tx_start(inp: TransactionInput) -> TransactionResponse:
-    worm = _ensure_worm_context(client_id=inp.client_id)
-    resp = worm.transaction_start(
-        client_id=inp.client_id,
-        process_data=inp.process_data,
-        process_type=inp.process_type,
-    )
-    return TransactionResponse(
-        **{k: v for k, v in resp.items() if not isinstance(v, bytes)}
-    )
+async def tx_start(inp: TransactionInput) -> TransactionResponse:
+    async with _worm_context(client_id=inp.client_id) as worm:
+        resp = worm.transaction_start(
+            client_id=inp.client_id,
+            process_data=inp.process_data,
+            process_type=inp.process_type,
+        )
+        return TransactionResponse(
+            **{k: v for k, v in resp.items() if not isinstance(v, bytes)}
+        )
 
 
 @app.post("/transactions/{transaction_id}/update", summary="Update a transaction")
-def tx_update(inp: TransactionInput, transaction_id: int) -> TransactionResponse:
-    worm = _ensure_worm_context(client_id=inp.client_id)
-    resp = worm.transaction_update(
-        client_id=inp.client_id,
-        transaction_id=transaction_id,
-        process_data=inp.process_data,
-        process_type=inp.process_type,
-    )
-    return TransactionResponse(
-        **{k: v for k, v in resp.items() if not isinstance(v, bytes)}
-    )
+async def tx_update(inp: TransactionInput, transaction_id: int) -> TransactionResponse:
+    async with _worm_context(client_id=inp.client_id) as worm:
+        resp = worm.transaction_update(
+            client_id=inp.client_id,
+            transaction_id=transaction_id,
+            process_data=inp.process_data,
+            process_type=inp.process_type,
+        )
+        return TransactionResponse(
+            **{k: v for k, v in resp.items() if not isinstance(v, bytes)}
+        )
 
 
 @app.post("/transactions/{transaction_id}/finish", summary="Finish a transaction")
-def tx_finish(inp: TransactionInput, transaction_id: int) -> TransactionResponse:
-    worm = _ensure_worm_context(client_id=inp.client_id)
-    resp = worm.transaction_finish(
-        client_id=inp.client_id,
-        transaction_id=transaction_id,
-        process_data=inp.process_data,
-        process_type=inp.process_type,
-    )
-    return TransactionResponse(
-        **{k: v for k, v in resp.items() if not isinstance(v, bytes)}
-    )
+async def tx_finish(inp: TransactionInput, transaction_id: int) -> TransactionResponse:
+    async with _worm_context(client_id=inp.client_id) as worm:
+        resp = worm.transaction_finish(
+            client_id=inp.client_id,
+            transaction_id=transaction_id,
+            process_data=inp.process_data,
+            process_type=inp.process_type,
+        )
+        return TransactionResponse(
+            **{k: v for k, v in resp.items() if not isinstance(v, bytes)}
+        )
 
 
 @app.exception_handler(errors.WormError)
