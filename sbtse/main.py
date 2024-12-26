@@ -607,10 +607,10 @@ def _serve(ctx, host, port, reload, time_admin_pin, debug, app):
     log_config = uvicorn.config.LOGGING_CONFIG
     log_config["formatters"]["access"][
         "fmt"
-    ] = "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+    ] = "%(asctime)s - %(levelname)s - %(name)s - thread=%(thread)s - %(message)s"
     log_config["formatters"]["default"][
         "fmt"
-    ] = "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+    ] = "%(asctime)s - %(levelname)s - %(name)s - thread=%(thread)s - %(message)s"
     log_config["loggers"][""] = {
         "handlers": ["default"],
         "level": "DEBUG" if debug else "INFO",
