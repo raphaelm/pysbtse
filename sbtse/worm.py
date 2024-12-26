@@ -8,6 +8,7 @@ from typing import List, BinaryIO
 
 from . import _worm
 from .errors import _guard
+from .utils import log_execution
 
 logger = logging.getLogger(__name__)
 
@@ -64,6 +65,7 @@ class BaseWormContext:
     def keepalive_disable(self):
         _guard(_worm.worm_keepalive_disable(self._ctx))
 
+    @log_execution
     def info(self) -> dict:
         i = _worm.worm_info_new(self._ctx)
         _guard(_worm.worm_info_read(i))
@@ -127,6 +129,7 @@ class BaseWormContext:
         _worm.worm_info_free(i)
         return info
 
+    @log_execution
     def flash_health(self) -> dict:
         val_errors = c_uint32()
         val_spare = c_uint8()
@@ -152,13 +155,16 @@ class BaseWormContext:
             "needsReplacement": needs_replacement,
         }
 
+    @log_execution
     def run_self_test(self, client_id):
         _guard(_worm.worm_tse_runSelfTest(self._ctx, client_id))
 
+    @log_execution
     def factory_reset(self):
         # Works only on development TSEs (pre-2020).
         _guard(_worm.worm_tse_factoryReset(self._ctx))
 
+    @log_execution
     def setup(
         self,
         client_id: str,
@@ -185,18 +191,23 @@ class BaseWormContext:
             )
         )
 
+    @log_execution
     def ctss_enable(self):
         _guard(_worm.worm_tse_ctss_enable(self._ctx))
 
+    @log_execution
     def ctss_disable(self):
         _guard(_worm.worm_tse_ctss_disable(self._ctx))
 
+    @log_execution
     def initialize(self):
         _guard(_worm.worm_tse_initialize(self._ctx))
 
+    @log_execution
     def decommission(self):
         _guard(_worm.worm_tse_decommission(self._ctx))
 
+    @log_execution
     def update_time(self, time=None):
         if not time:
             time = datetime.datetime.now(datetime.timezone.utc)
@@ -204,26 +215,33 @@ class BaseWormContext:
             time = int(time.astimezone(datetime.timezone.utc).timestamp())
         _guard(_worm.worm_tse_updateTime(self._ctx, time))
 
+    @log_execution
     def bundled_firmware_update_available(self) -> bool:
         val = _worm.WormTseFirmwareUpdate()
         _guard(_worm.worm_tse_firmwareUpdate_isBundledAvailable(self._ctx, byref(val)))
         return val.value != _worm.WORM_FW_NONE
 
+    @log_execution
     def bundled_firmware_update_apply(self):
         _guard(_worm.worm_tse_firmwareUpdate_applyBundled(self._ctx))
 
+    @log_execution
     def enable_export_if_csp_test_fails(self):
         _guard(_worm.worm_tse_enableExportIfCspTestFails(self._ctx))
 
+    @log_execution
     def disable_export_if_csp_test_fails(self):
         _guard(_worm.worm_tse_disableExportIfCspTestFails(self._ctx))
 
+    @log_execution
     def register_client(self, client_id: str):
         _guard(_worm.worm_tse_registerClient(self._ctx, client_id))
 
+    @log_execution
     def deregister_client(self, client_id: str):
         _guard(_worm.worm_tse_deregisterClient(self._ctx, client_id))
 
+    @log_execution
     def list_registered_clients(self) -> List[str]:
         result = []
         skip = 0
@@ -255,15 +273,19 @@ class BaseWormContext:
             logger.warning("Remaining retries: %d", val_remaining_retries.value)
         _guard(ret)
 
+    @log_execution
     def login_as_admin(self, pin: str):
         self._login(_worm.WORM_USER_ADMIN, pin)
 
+    @log_execution
     def login_as_time_admin(self, pin: str):
         self._login(_worm.WORM_USER_TIME_ADMIN, pin)
 
+    @log_execution
     def logout_as_admin(self):
         _guard(_worm.worm_user_logout(self._ctx, _worm.WORM_USER_ADMIN))
 
+    @log_execution
     def logout_as_time_admin(self):
         _guard(_worm.worm_user_logout(self._ctx, _worm.WORM_USER_TIME_ADMIN))
 
@@ -284,12 +306,15 @@ class BaseWormContext:
             logger.warning("Remaining retries: %d", val_remaining_retries.value)
         _guard(ret)
 
+    @log_execution
     def unblock_admin(self, puk: str, new_pin: str):
         self._unblock(_worm.WORM_USER_ADMIN, puk, new_pin)
 
+    @log_execution
     def unblock_time_admin(self, puk: str, new_pin: str):
         self._unblock(_worm.WORM_USER_TIME_ADMIN, puk, new_pin)
 
+    @log_execution
     def change_puk(self, puk: str, new_puk: str):
         val_remaining_retries = c_int()
         assert len(puk) == 6
@@ -323,12 +348,15 @@ class BaseWormContext:
             logger.warning("Remaining retries: %d", val_remaining_retries.value)
         _guard(ret)
 
+    @log_execution
     def change_admin_pin(self, pin: str, new_pin: str):
         self._change_pin(_worm.WORM_USER_ADMIN, pin, new_pin)
 
+    @log_execution
     def change_time_admin_pin(self, pin: str, new_pin: str):
         self._change_pin(_worm.WORM_USER_TIME_ADMIN, pin, new_pin)
 
+    @log_execution
     def derive_initial_credentials(self, credential_seed="SwissbitSwissbit") -> dict:
         _worm.worm_user_deriveInitialCredentials.argtypes = [
             # This is easier to handle than what ctypesgen generates
@@ -390,6 +418,7 @@ class BaseWormContext:
             "signatureBase64": base64.b64encode(signature).decode(),
         }
 
+    @log_execution
     def transaction_start(self, client_id: str, process_data: str, process_type: str):
         resp = _worm.worm_transaction_response_new(self._ctx)
         _guard(
@@ -406,6 +435,7 @@ class BaseWormContext:
         _worm.worm_transaction_response_free(resp)
         return data
 
+    @log_execution
     def transaction_update(
         self, client_id: str, transaction_id: int, process_data: str, process_type: str
     ):
@@ -425,6 +455,7 @@ class BaseWormContext:
         _worm.worm_transaction_response_free(resp)
         return data
 
+    @log_execution
     def transaction_finish(
         self, client_id: str, transaction_id: int, process_data: str, process_type: str
     ):
@@ -444,6 +475,7 @@ class BaseWormContext:
         _worm.worm_transaction_response_free(resp)
         return data
 
+    @log_execution
     def last_transaction(self, client_id: str = None):
         resp = _worm.worm_transaction_response_new(self._ctx)
         _guard(
@@ -457,6 +489,7 @@ class BaseWormContext:
         _worm.worm_transaction_response_free(resp)
         return data
 
+    @log_execution
     def list_started_transactions(self, client_id: str = None):
         result = []
         skip = 0
@@ -497,6 +530,7 @@ class BaseWormContext:
             "processData": bytes([val_res_pd[i] for i in range(val_len_pd)]),
         }
 
+    @log_execution
     def first_entry(self) -> dict:
         entry = _worm.worm_entry_new(self._ctx)
         _guard(_worm.worm_entry_iterate_first(entry))
@@ -504,6 +538,7 @@ class BaseWormContext:
         _worm.worm_entry_free(entry)
         return d
 
+    @log_execution
     def last_entry(self) -> dict:
         entry = _worm.worm_entry_new(self._ctx)
         _guard(_worm.worm_entry_iterate_last(entry))
@@ -511,6 +546,7 @@ class BaseWormContext:
         _worm.worm_entry_free(entry)
         return d
 
+    @log_execution
     def entry_by_id(self, entry_id: int) -> dict:
         entry = _worm.worm_entry_new(self._ctx)
         _guard(_worm.worm_entry_iterate_id(entry, entry_id))
@@ -518,6 +554,7 @@ class BaseWormContext:
         _worm.worm_entry_free(entry)
         return d
 
+    @log_execution
     def iterate_entries(self, start_at: int = 0):
         entry = _worm.worm_entry_new(self._ctx)
         if start_at:
@@ -536,6 +573,7 @@ class BaseWormContext:
         finally:
             _worm.worm_entry_free(entry)
 
+    @log_execution
     def get_log_message_certificate(self) -> str:
         val_len = c_uint(
             1024 * 16
@@ -544,6 +582,7 @@ class BaseWormContext:
         _guard(_worm.worm_getLogMessageCertificate(self._ctx, val_res, byref(val_len)))
         return bytes([val_res[i] for i in range(val_len.value)]).decode()
 
+    @log_execution
     def export_tar(
         self,
         target: BinaryIO,
@@ -608,11 +647,13 @@ class BaseWormContext:
             else:
                 _guard(_worm.worm_export_tar(self._ctx, write, c_void_p()))
 
+    @log_execution
     def delete_stored_data(self):
         _guard(_worm.worm_export_deleteStoredData(self._ctx))
 
 
 class LocalWormContext(BaseWormContext):
+    @log_execution
     def __init__(self, mount_point: str):
         super().__init__()
         self._ctx = POINTER(_worm.WormContext)()
@@ -620,6 +661,7 @@ class LocalWormContext(BaseWormContext):
 
 
 class LANWormContext(BaseWormContext):
+    @log_execution
     def __init__(self, url: str, api_token: str):
         super().__init__()
         self._ctx = POINTER(_worm.WormContext)()

@@ -561,6 +561,7 @@ def export(
 
 @main.command(help="Run local API server")
 @click.option("--reload", is_flag=True, help="Auto-reload code (development only)")
+@click.option("--debug", is_flag=True, help="Debug log")
 @click.option(
     "--host",
     type=str,
@@ -572,12 +573,13 @@ def export(
 )
 @click.option("--time-admin-pin", prompt=True, type=T_PIN, help="Time Admin PIN")
 @click.pass_context
-def serve(ctx, host, port, reload, time_admin_pin):
-    _serve(ctx, host, port, reload, time_admin_pin, "sbtse.api:app")
+def serve(ctx, host, port, reload, time_admin_pin, debug):
+    _serve(ctx, host, port, reload, time_admin_pin, debug, "sbtse.api:app")
 
 
 @main.command(help="Run mock API server (development only)")
 @click.option("--reload", is_flag=True, help="Auto-reload code (development only)")
+@click.option("--debug", is_flag=True, help="Debug log")
 @click.option(
     "--host",
     type=str,
@@ -588,11 +590,11 @@ def serve(ctx, host, port, reload, time_admin_pin):
     "--port", type=int, default=9873, help="Host to listen to (default: 9873)"
 )
 @click.pass_context
-def mock(ctx, host, port, reload):
-    _serve(ctx, host, port, reload, "12345", "sbtse.mockapi:app")
+def mock(ctx, host, port, reload, debug):
+    _serve(ctx, host, port, reload, "12345", debug, "sbtse.mockapi:app")
 
 
-def _serve(ctx, host, port, reload, time_admin_pin, app):
+def _serve(ctx, host, port, reload, time_admin_pin, debug, app):
     os.environ.update(
         {
             "SBTSE_PATH": ctx.obj["path"] or "",
@@ -611,7 +613,7 @@ def _serve(ctx, host, port, reload, time_admin_pin, app):
     ] = "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
     log_config["loggers"][""] = {
         "handlers": ["default"],
-        "level": "INFO",
+        "level": "DEBUG" if debug else "INFO",
         "propagate": False,
     }
     uvicorn.run(
