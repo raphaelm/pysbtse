@@ -117,7 +117,20 @@ async def _worm_context(client_id, require_self_test=True) -> BaseWormContext:
         if time.time() - last_time_update > info["maxTimeSynchronizationDelay"] * 0.8:
             _update_time(info)
 
-        yield worm_context
+        try:
+            yield worm_context
+        except errors.WormErrorNoTimeSet:
+            # self heal attempt
+            _update_time(info)
+            raise
+        except errors.WormErrorWrongStateNeedsSelfTestPassed:
+            # self heal attempt
+            if client_id:
+                logger.info(f"Running self test with client ID {client_id}...")
+                worm_context.run_self_test(client_id)
+                logger.info("Self test completed.")
+                _update_time(info)
+            raise
 
 
 class InfoResponse(BaseModel):
