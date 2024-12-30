@@ -6,7 +6,7 @@ import os
 import time
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Optional, List
 
 from fastapi import FastAPI, Response, Request
 from fastapi.responses import JSONResponse
@@ -299,3 +299,12 @@ async def unicorn_exception_handler(request: Request, exc: errors.WormError):
         status_code=500,
         content={"message": type(exc).__name__},
     )
+
+
+@app.get("/transactions/{client_id}/open/", summary="List of started transactions for client ID")
+async def tx_started_for_client(client_id: str) -> List[int]:
+    async with _worm_context(client_id=client_id) as worm:
+        resp = worm.list_started_transactions(
+            client_id=client_id,
+        )
+        return resp
