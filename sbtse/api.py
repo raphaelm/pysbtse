@@ -6,7 +6,7 @@ import os
 import time
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
-from typing import Optional, List
+from typing import Optional
 
 from fastapi import FastAPI, Response, Request
 from fastapi.responses import JSONResponse
@@ -221,6 +221,19 @@ class TransactionResponse(BaseModel):
     signatureBase64: str
 
 
+@app.post("/transactions/", summary="Start a transaction")
+async def tx_start(inp: TransactionInput) -> TransactionResponse:
+    async with _worm_context(client_id=inp.client_id) as worm:
+        resp = worm.transaction_start(
+            client_id=inp.client_id,
+            process_data=inp.process_data,
+            process_type=inp.process_type,
+        )
+        return TransactionResponse(
+            **{k: v for k, v in resp.items() if not isinstance(v, bytes)}
+        )
+
+
 @app.post("/transactions/{transaction_id}/update", summary="Update a transaction")
 async def tx_update(inp: TransactionInput, transaction_id: int) -> TransactionResponse:
     async with _worm_context(client_id=inp.client_id) as worm:
@@ -286,25 +299,3 @@ async def unicorn_exception_handler(request: Request, exc: errors.WormError):
         status_code=500,
         content={"message": type(exc).__name__},
     )
-
-
-@app.get("/transactions/open", summary="Start a transaction")
-async def tx_start(inp: TransactionInput) -> TransactionResponse:
-    async with _worm_context(client_id=inp.client_id) as worm:
-        resp = worm.get_(
-            client_id=inp.client_id,
-            process_data=inp.process_data,
-            process_type=inp.process_type,
-        )
-        return TransactionResponse(
-            **{k: v for k, v in resp.items() if not isinstance(v, bytes)}
-        )
-
-
-@app.get("/transactions/{client_id}/open/", summary="List of started transactions for client ID")
-async def tx_started_for_client(client_id: str) -> List[int]:
-    async with _worm_context(client_id=client_id) as worm:
-        resp = worm.list_started_transactions(
-            client_id=client_id,
-        )
-        return resp

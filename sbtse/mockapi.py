@@ -3,7 +3,6 @@ import datetime
 import logging
 import time
 from textwrap import dedent
-from typing import List
 
 from fastapi import FastAPI, Response
 
@@ -145,8 +144,3 @@ def tx_finish(inp: TransactionInput, transaction_id: int) -> TransactionResponse
         signatureCounter=transaction_id * 2,
         signatureBase64=base64.b64encode(b"Not a real signature, development only!"),
     )
-
-
-@app.get("/transactions/{client_id}/open/", summary="List of started transactions for client ID")
-async def tx_started_for_client(client_id: str) -> List[int]:
-    return [1, 2]
