@@ -10,7 +10,7 @@ find it on the internet or request it from a Swissbit TSE seller.
 
 ## Capabilities
 
-This module includes an auto-generated ctypes wrapper for the `libWormAPI.so` from Swissbit SDK 5.9.1.
+This module includes an auto-generated ctypes wrapper for the `libWormAPI.so` from Swissbit SDK 6.0.0.
 On top of that, it includes a high-level Python interface to work with the TSE.
 The Python interface supports all features of the offline SDK except for:
 
