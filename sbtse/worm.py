@@ -2,8 +2,7 @@ import base64
 import contextlib
 import datetime
 import logging
-from _ctypes import POINTER, byref
-from ctypes import c_ubyte, c_uint32, c_uint8, c_int, c_char_p, cast, c_uint, c_void_p
+from ctypes import c_ubyte, c_uint32, c_uint8, c_int, c_char_p, cast, c_uint, c_void_p, POINTER, byref
 from typing import List, BinaryIO
 
 from . import _worm
