@@ -2,8 +2,7 @@ import base64
 import contextlib
 import datetime
 import logging
-from _ctypes import POINTER, byref
-from ctypes import c_ubyte, c_uint32, c_uint8, c_int, c_char_p, cast, c_uint, c_void_p
+from ctypes import c_ubyte, c_uint32, c_uint8, c_int, c_char_p, cast, c_uint, c_void_p, POINTER, byref
 from typing import List, BinaryIO
 
 from . import _worm
@@ -46,6 +45,10 @@ def _c_ubyte(bs):
 
 
 class BaseWormContext:
+    USER_ADMIN = 1
+    USER_TIME_ADMIN = 2
+    USER_LOGGER = 3
+
     def __init__(self):
         self._ctx = None
 
@@ -96,8 +99,12 @@ class BaseWormContext:
                 _worm.worm_info_isExportEnabledIfCspTestFails(i)
             ),
             "initializationState": states[_worm.worm_info_initializationState(i)],
-            "hasChangedPuk": bool(_worm.worm_info_hasChangedPuk(i)),
+            "hasChangedAdminPuk": bool(_worm.worm_info_hasChangedAdminPuk(i)),
             "hasChangedAdminPin": bool(_worm.worm_info_hasChangedAdminPin(i)),
+            "hasChangedTimeAdminPuk": bool(_worm.worm_info_hasChangedTimeAdminPuk(i)),
+            "hasChangedTimeAdminPin": bool(_worm.worm_info_hasChangedTimeAdminPin(i)),
+            "hasChangedLoggerPuk": bool(_worm.worm_info_hasChangedLoggerPuk(i)),
+            "hasChangedLoggerPin": bool(_worm.worm_info_hasChangedLoggerPin(i)),
             "timeUntilNextSelfTest": _worm.worm_info_timeUntilNextSelfTest(i),
             "startedTransactions": _worm.worm_info_startedTransactions(i),
             "maxStartedTransactions": _worm.worm_info_maxStartedTransactions(i),
@@ -114,7 +121,7 @@ class BaseWormContext:
             ),
             "tseSerialNumberBytes": serial,
             "tseSerialNumberHex": serial.hex(),
-            "tseDescription": _worm.worm_info_tseDescription(i).decode(),
+            "tseCertificationId": _worm.worm_info_tseCertificationId(i).decode(),
             "registeredClients": _worm.worm_info_registeredClients(i),
             "maxRegisteredClients": _worm.worm_info_maxRegisteredClients(i),
             "certificateExpirationDate": datetime.datetime.fromtimestamp(
@@ -307,20 +314,17 @@ class BaseWormContext:
         _guard(ret)
 
     @log_execution
-    def unblock_admin(self, puk: str, new_pin: str):
-        self._unblock(_worm.WORM_USER_ADMIN, puk, new_pin)
+    def unblock(self, user: int, puk: str, new_pin: str):
+        self._unblock(user, puk, new_pin)
 
     @log_execution
-    def unblock_time_admin(self, puk: str, new_pin: str):
-        self._unblock(_worm.WORM_USER_TIME_ADMIN, puk, new_pin)
-
-    @log_execution
-    def change_puk(self, puk: str, new_puk: str):
+    def change_puk(self, user: int, puk: str, new_puk: str):
         val_remaining_retries = c_int()
         assert len(puk) == 6
         assert len(new_puk) == 6
-        ret = _worm.worm_user_change_puk(
+        ret = _worm.worm_user_change_puk_ext(
             self._ctx,
+            user,
             _c_ubyte(puk.encode()),
             len(puk),
             _c_ubyte(new_puk.encode()),
@@ -349,8 +353,8 @@ class BaseWormContext:
         _guard(ret)
 
     @log_execution
-    def change_admin_pin(self, pin: str, new_pin: str):
-        self._change_pin(_worm.WORM_USER_ADMIN, pin, new_pin)
+    def change_pin(self, user: int, pin: str, new_pin: str):
+        self._change_pin(user, pin, new_pin)
 
     @log_execution
     def change_time_admin_pin(self, pin: str, new_pin: str):
@@ -358,7 +362,7 @@ class BaseWormContext:
 
     @log_execution
     def derive_initial_credentials(self, credential_seed="SwissbitSwissbit") -> dict:
-        _worm.worm_user_deriveInitialCredentials.argtypes = [
+        _worm.worm_user_deriveInitialCredentials_ext.argtypes = [
             # This is easier to handle than what ctypesgen generates
             POINTER(_worm.WormContext),
             POINTER(c_ubyte),
@@ -369,13 +373,22 @@ class BaseWormContext:
             c_int,
             c_char_p,
             c_int,
+            c_char_p,
+            c_int,
+            c_char_p,
+            c_int,
+            c_char_p,
+            c_int,
         ]
         val_res_puk = c_char_p(b"******")
         val_res_pin = c_char_p(b"*****")
+        val_res_tapuk = c_char_p(b"******")
         val_res_tapin = c_char_p(b"*****")
+        val_res_lgpuk = c_char_p(b"******")
+        val_res_lgpin = c_char_p(b"*****")
 
         _guard(
-            _worm.worm_user_deriveInitialCredentials(
+            _worm.worm_user_deriveInitialCredentials_ext(
                 self._ctx,
                 _c_ubyte(credential_seed.encode()),
                 len(credential_seed),
@@ -383,6 +396,12 @@ class BaseWormContext:
                 6,
                 val_res_pin,
                 5,
+                val_res_tapuk,
+                6,
+                val_res_tapin,
+                5,
+                val_res_lgpuk,
+                6,
                 val_res_tapin,
                 5,
             )
@@ -391,6 +410,9 @@ class BaseWormContext:
             "adminPuk": val_res_puk.value.decode(),
             "adminPin": val_res_pin.value.decode(),
             "timeAdminPin": val_res_tapin.value.decode(),
+            "timeAdminPuk": val_res_tapuk.value.decode(),
+            "loggerPin": val_res_lgpin.value.decode(),
+            "loggerPuk": val_res_lgpuk.value.decode(),
         }
 
     def _transaction_response_to_dict(self, resp):

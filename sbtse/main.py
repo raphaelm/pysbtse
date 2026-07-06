@@ -307,76 +307,52 @@ def firmware_update(ctx, client_id, admin_pin):
         else:
             click.echo(click.style("No update available.", fg="red"))
 
+def user_management(prefix, user, uid):
+    @main.group(f"{prefix}pin", help=f"Manage {user} PIN")
+    @click.pass_context
+    def pin(ctx):
+        pass
 
-@main.group("pin", help="Manage Admin PIN")
-@click.pass_context
-def pin(ctx):
-    pass
+    @pin.command(help=f"Unblock {user} PIN")
+    @click.option("--puk", prompt=True, type=T_PUK, help="PUK")
+    @click.option("--new-pin", prompt=True, type=T_PIN, help="New PIN")
+    @click.pass_context
+    def unblock(ctx, puk, new_pin):
+        with _tse_context(ctx, self_test_client="UNKNOWN") as w:
+            w.unblock(uid, puk, new_pin)
 
+    @pin.command(help=f"Change {user} PIN")
+    @click.option("--old-pin", prompt=True, type=T_PIN, help="Old PIN")
+    @click.option("--new-pin", prompt=True, type=T_PIN, help="New PIN")
+    @click.pass_context
+    def change(ctx, old_pin, new_pin):
+        with _tse_context(ctx, self_test_client="UNKNOWN") as w:
+            w.change_pin(uid, old_pin, new_pin)
 
-@pin.command(help="Unblock Admin PIN")
-@click.option("--admin-puk", prompt=True, type=T_PUK, help="Admin PUK")
-@click.option("--new-pin", prompt=True, type=T_PIN, help="New PIN")
-@click.pass_context
-def unblock(ctx, admin_puk, new_pin):
-    with _tse_context(ctx, self_test_client="UNKNOWN") as w:
-        w.unblock_admin(admin_puk, new_pin)
+    @main.group(f"{prefix}puk", help=f"Manage {user} PUK")
+    @click.pass_context
+    def puk(ctx):
+        pass
 
+    @puk.command(help=f"Change {user} PUK")
+    @click.option("--old-puk", prompt=True, type=T_PUK, help="Old PUK")
+    @click.option("--new-puk", prompt=True, type=T_PUK, help="New PUK")
+    @click.pass_context
+    def change(ctx, old_puk, new_puk):
+        with _tse_context(ctx, self_test_client="UNKNOWN") as w:
+            w.change_puk(uid, old_puk, new_puk)
 
-@pin.command(help="Change Admin PIN")
-@click.option("--old-pin", prompt=True, type=T_PIN, help="Old PIN")
-@click.option("--new-pin", prompt=True, type=T_PIN, help="New PIN")
-@click.pass_context
-def change(ctx, old_pin, new_pin):
-    with _tse_context(ctx, self_test_client="UNKNOWN") as w:
-        w.change_admin_pin(old_pin, new_pin)
-
-
-@main.group("time-admin-pin", help="Manage Time Admin PIN")
-@click.pass_context
-def time_admin_pin(ctx):
-    pass
-
-
-@time_admin_pin.command(help="Unblock Time Admin PIN")
-@click.option("--admin-puk", prompt=True, type=T_PUK, help="Admin PUK")
-@click.option("--new-pin", prompt=True, type=T_PIN, help="New PIN")
-@click.pass_context
-def unblock(ctx, admin_puk, new_pin):
-    with _tse_context(ctx, self_test_client="UNKNOWN") as w:
-        w.unblock_time_admin(admin_puk, new_pin)
-
-
-@time_admin_pin.command(help="Change Time Admin PIN")
-@click.option("--old-pin", prompt=True, type=T_PIN, help="Old PIN")
-@click.option("--new-pin", prompt=True, type=T_PIN, help="New PIN")
-@click.pass_context
-def change(ctx, old_pin, new_pin):
-    with _tse_context(ctx, self_test_client="UNKNOWN") as w:
-        w.change_time_admin_pin(old_pin, new_pin)
+    @puk.command(help="Show initial credentials")
+    @click.pass_context
+    def initial(ctx):
+        with _tse_context(ctx, self_test_client="UNKNOWN") as w:
+            for k, v in w.derive_initial_credentials().items():
+                print(f"{k}: {v}")
 
 
-@main.group("puk", help="Manage PUK")
-@click.pass_context
-def puk(ctx):
-    pass
-
-
-@puk.command(help="Change PUK")
-@click.option("--old-puk", prompt=True, type=T_PUK, help="Old PUK")
-@click.option("--new-puk", prompt=True, type=T_PUK, help="New PUK")
-@click.pass_context
-def change(ctx, old_puk, new_puk):
-    with _tse_context(ctx, self_test_client="UNKNOWN") as w:
-        w.change_puk(old_puk, new_puk)
-
-
-@puk.command(help="Show initial credentials")
-@click.pass_context
-def initial(ctx):
-    with _tse_context(ctx, self_test_client="UNKNOWN") as w:
-        for k, v in w.derive_initial_credentials().items():
-            print(f"{k}: {v}")
+user_management("", "admin", worm.BaseWormContext.USER_ADMIN)
+user_management("time-admin-", "time admin", worm.BaseWormContext.USER_TIME_ADMIN)
+user_management("logger-", "logger", worm.BaseWormContext.USER_LOGGER)
 
 
 @main.group("transaction", help="Create and query transactions")
