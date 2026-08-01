@@ -73,7 +73,7 @@ async def _update_time_loop():
             else:
                 await asyncio.sleep(10)
         except asyncio.CancelledError:
-            pass
+            break
         except:
             logger.exception("Error updating time.")
             await asyncio.sleep(10)

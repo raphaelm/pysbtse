@@ -545,7 +545,7 @@ def export(
     help="Host to listen to (default: 127.0.0.1)",
 )
 @click.option(
-    "--port", type=int, default=9873, help="Host to listen to (default: 9873)"
+    "--port", type=int, default=9873, help="Port to listen to (default: 9873)"
 )
 @click.option("--time-admin-pin", prompt=True, type=T_PIN, help="Time Admin PIN")
 @click.pass_context
