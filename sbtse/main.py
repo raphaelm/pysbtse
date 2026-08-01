@@ -13,7 +13,7 @@ from sbtse import worm
 from sbtse.errors import (
     WormError,
     WormErrorClientNotRegistered,
-    WormErrorWrongStateNeedsSelfTest,
+    WormErrorWrongStateNeedsSelfTest, WormErrorTseAlreadyInitialized,
 )
 
 
@@ -175,6 +175,18 @@ def factory_reset(ctx):
         w.factory_reset()
 
 
+@main.command(help="Run startup sequence before transactions (e.g. after power cycle)")
+@click.option("--client-id", "-c", prompt=True, type=str, help="Client ID")
+@click.option("--admin-pin", prompt=True, type=T_PIN, help="Admin PIN")
+@click.pass_context
+def startup(ctx, client_id, admin_pin):
+    with _tse_context(ctx) as w:
+        if w.needs_setup():
+            print('TSE not configured, use setup instead!')
+            return
+        w.startup(client_id, admin_pin, autopilot=False)
+
+
 @main.command(help="Run setup procedure for a fresh TSE")
 @click.option("--client-id", "-c", prompt=True, type=str, help="Client ID")
 @click.option("--admin-pin", prompt=True, type=T_PIN, help="Admin PIN")
@@ -183,13 +195,12 @@ def factory_reset(ctx):
 @click.pass_context
 def setup(ctx, client_id, admin_pin, admin_puk, time_admin_pin):
     with _tse_context(ctx) as w:
+        print(f'needs_setup (before): {w.needs_setup()}')
         try:
-            w.run_self_test(client_id)
-        except WormErrorClientNotRegistered:
-            pass
-        else:
-            raise UsageError("Client already registered.")
-        w.setup(client_id, admin_pin, admin_puk, time_admin_pin)
+            w.setup_ext(client_id, admin_pin, admin_puk, time_admin_pin)
+        except WormErrorTseAlreadyInitialized:
+            print('already set up')
+        print(f'needs_setup (after):  {w.needs_setup()}')
 
 
 @main.group("config", help="Manipulate TSE configuration")
@@ -535,6 +546,49 @@ def export(
         )
 
 
+@main.command(help="Export stored data in chunks.")
+@click.argument("outfile", type=str)
+@click.option("--size", prompt=True, type=int, help="split export file after this number of bytes")
+@click.option("--admin-pin", prompt=True, type=T_PIN, help="Admin PIN")
+@click.option(
+    "--client-id",
+    "-c",
+    prompt=True,
+    type=str,
+    help="Client ID (for selftest, if necessary)",
+)
+@click.pass_context
+def export_chunks(
+    ctx,
+    outfile,
+    size,
+    admin_pin,
+    client_id,
+):
+    current_state = None
+    file_counter = 1
+    with _tse_context(ctx, admin_pin=admin_pin, self_test_client=client_id) as w:
+        total_size =  w.worm_export_tar_incremental_size()
+        print(f'estimated total export size: {total_size} bytes')
+        print(f'chunk size: {size} bytes')
+        while True:
+            current_filename = f'{outfile}_{file_counter:02}.tar'
+            print(current_filename, end=': ')
+            with open(current_filename, 'wb') as f_out:
+                (new_state, all_data_exported, first_signature_counter, last_signature_counter) = w.export_tar_incremental(
+                    last_state=current_state,
+                    max_export_size=size,
+                    target=f_out,
+                )
+            print(f'{first_signature_counter} .. {last_signature_counter}')
+            if all_data_exported:
+                print('finished.')
+                break
+            else:
+                current_state = new_state
+                file_counter += 1
+
+
 @main.command(help="Run local API server")
 @click.option("--reload", is_flag=True, help="Auto-reload code (development only)")
 @click.option("--debug", is_flag=True, help="Debug log")
@@ -545,7 +599,7 @@ def export(
     help="Host to listen to (default: 127.0.0.1)",
 )
 @click.option(
-    "--port", type=int, default=9873, help="Host to listen to (default: 9873)"
+    "--port", type=int, default=9873, help="Port to listen to (default: 9873)"
 )
 @click.option("--time-admin-pin", prompt=True, type=T_PIN, help="Time Admin PIN")
 @click.pass_context

@@ -2,7 +2,9 @@ import base64
 import contextlib
 import datetime
 import logging
-from ctypes import c_ubyte, c_uint32, c_uint8, c_int, c_char_p, cast, c_uint, c_void_p, POINTER, byref
+from collections.abc import Callable
+from ctypes import c_ubyte, c_uint32, c_uint8, c_int, c_char_p, cast, c_uint, c_void_p, POINTER, byref, string_at, \
+    c_uint64
 from typing import List, BinaryIO
 
 from . import _worm
@@ -172,6 +174,23 @@ class BaseWormContext:
         _guard(_worm.worm_tse_factoryReset(self._ctx))
 
     @log_execution
+    def needs_setup(self):
+        _need = c_int()
+        _guard(_worm.worm_tse_needs_setup(self._ctx, byref(_need)))
+        return bool(_need.value)
+
+    @log_execution
+    def startup(self, client_id: str, admin_pin: str, autopilot: bool = True):
+        _guard(
+            _worm.worm_tse_startup(
+                self._ctx,
+                client_id,
+                _c_ubyte(admin_pin.encode()),
+                len(admin_pin),
+                int(autopilot),
+            ))
+
+    @log_execution
     def setup(
         self,
         client_id: str,
@@ -195,6 +214,35 @@ class BaseWormContext:
                 _c_ubyte(time_admin_pin.encode()),
                 len(time_admin_pin),
                 client_id,
+            )
+        )
+
+    @log_execution
+    def setup_ext(
+        self,
+        client_id: str,
+        admin_pin: str,
+        admin_puk: str,
+        time_admin_pin: str,
+        credential_seed="SwissbitSwissbit",
+        enable_autopilot: bool = True,
+    ):
+        assert len(admin_pin) == 5
+        assert len(admin_puk) == 6
+        assert len(time_admin_pin) == 5
+        _guard(
+            _worm.worm_tse_setup_ext(
+                self._ctx,
+                _c_ubyte(credential_seed.encode()),
+                len(credential_seed),
+                _c_ubyte(admin_puk.encode()),
+                len(admin_puk),
+                _c_ubyte(admin_pin.encode()),
+                len(admin_pin),
+                _c_ubyte(time_admin_pin.encode()),
+                len(time_admin_pin),
+                client_id,
+                int(enable_autopilot),
             )
         )
 
@@ -668,6 +716,75 @@ class BaseWormContext:
                 )
             else:
                 _guard(_worm.worm_export_tar(self._ctx, write, c_void_p()))
+
+    @log_execution
+    def export_tar_incremental(
+        self,
+        last_state: bytes | None = None,
+        max_export_size: int = 0,
+        callback: Callable[[bytes, int, int, int, None], int] = None,
+        target: BinaryIO = None,
+    ):
+        '''Performs an incremental export of all stored data as a TR-03153 compliant TAR archive.
+        Needs returned new_state from last run as last_state and either callback function or target file object
+        callback function must handle writing chunk data somewhere and may display progress indication.
+        If the callback terminates non-zero, export is aborted.
+        max_export_size can be given to limit resulting file size. 0=unlimited
+        In case of limited output size, the returned value for all_data_exported may be False if some data is left unexported.
+        Returns tuple (new_state: bytes, all_data_exported: bool, first_signature_counter: int, last_signature_counter: int)
+        '''
+
+        def py_write(chunk, chunk_length, processed_blocks, total_blocks, callback_data):
+            data = bytes([chunk[i] for i in range(chunk_length)])
+            target.write(data)
+            return 0
+
+        if callback:
+            write = _worm.WormExportTarIncrementalCallback(callback)
+        elif target:
+            write = _worm.WormExportTarIncrementalCallback(py_write)
+        else:
+            raise ValueError('must give callback or target file object to export_tar_incremental')
+        last_state_bytes = last_state or b''
+        if last_state_bytes:
+            # Erstellt ein c_ubyte-Array aus den Bytes
+            _last_state_buf = (c_ubyte * len(last_state_bytes)).from_buffer_copy(last_state_bytes)
+            _last_state_len = len(last_state_bytes)
+        else:
+            # Falls kein Alter Status da ist -> NULL-Pointer und Länge 0
+            _last_state_buf = None
+            _last_state_len = 0
+        _new_state = (c_ubyte * _worm.WORM_EXPORT_TAR_INCREMENTAL_STATE_SIZE)()
+        _all_data_exported = c_int()
+        _first_signature_counter = _worm.worm_uint()
+        _last_signature_counter = _worm.worm_uint()
+        _guard(_worm.worm_export_tar_incremental_ex(self._ctx,
+                                                    _last_state_buf,
+                                                    _last_state_len,
+                                                    _new_state,
+                                                    _worm.WORM_EXPORT_TAR_INCREMENTAL_STATE_SIZE,
+                                                    max_export_size,
+                                                    byref(_all_data_exported),
+                                                    byref(_first_signature_counter),
+                                                    byref(_last_signature_counter),
+                                                    write,
+                                                    c_void_p()))
+
+        new_state = string_at(_new_state, _worm.WORM_EXPORT_TAR_INCREMENTAL_STATE_SIZE)
+        all_data_exported = bool(_all_data_exported.value)
+        first_signature_counter = _first_signature_counter.value
+        last_signature_counter = _last_signature_counter.value
+        return (new_state, all_data_exported, first_signature_counter, last_signature_counter)
+
+    @log_execution
+    def worm_export_tar_incremental_size(self, last_state: bytes | None = None):
+        _size = c_uint64()
+        _guard(_worm.worm_export_tar_incremental_size(self._ctx,
+                                                      _c_ubyte(last_state or b''),
+                                                      len(last_state or b''),
+                                                      byref(_size)))
+        size = _size.value
+        return size
 
     @log_execution
     def delete_stored_data(self):
