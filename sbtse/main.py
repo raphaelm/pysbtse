@@ -13,7 +13,7 @@ from sbtse import worm
 from sbtse.errors import (
     WormError,
     WormErrorClientNotRegistered,
-    WormErrorWrongStateNeedsSelfTest,
+    WormErrorWrongStateNeedsSelfTest, WormErrorTseAlreadyInitialized,
 )
 
 
@@ -183,13 +183,12 @@ def factory_reset(ctx):
 @click.pass_context
 def setup(ctx, client_id, admin_pin, admin_puk, time_admin_pin):
     with _tse_context(ctx) as w:
+        print(f'needs_setup (before): {w.needs_setup()}')
         try:
-            w.run_self_test(client_id)
-        except WormErrorClientNotRegistered:
-            pass
-        else:
-            raise UsageError("Client already registered.")
-        w.setup(client_id, admin_pin, admin_puk, time_admin_pin)
+            w.setup_ext(client_id, admin_pin, admin_puk, time_admin_pin)
+        except WormErrorTseAlreadyInitialized:
+            print('already set up')
+        print(f'needs_setup (after):  {w.needs_setup()}')
 
 
 @main.group("config", help="Manipulate TSE configuration")

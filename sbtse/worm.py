@@ -174,6 +174,12 @@ class BaseWormContext:
         _guard(_worm.worm_tse_factoryReset(self._ctx))
 
     @log_execution
+    def needs_setup(self):
+        _need = c_int()
+        _guard(_worm.worm_tse_needs_setup(self._ctx, byref(_need)))
+        return bool(_need.value)
+
+    @log_execution
     def setup(
         self,
         client_id: str,
@@ -197,6 +203,35 @@ class BaseWormContext:
                 _c_ubyte(time_admin_pin.encode()),
                 len(time_admin_pin),
                 client_id,
+            )
+        )
+
+    @log_execution
+    def setup_ext(
+        self,
+        client_id: str,
+        admin_pin: str,
+        admin_puk: str,
+        time_admin_pin: str,
+        credential_seed="SwissbitSwissbit",
+        enable_autopilot: bool = True,
+    ):
+        assert len(admin_pin) == 5
+        assert len(admin_puk) == 6
+        assert len(time_admin_pin) == 5
+        _guard(
+            _worm.worm_tse_setup_ext(
+                self._ctx,
+                _c_ubyte(credential_seed.encode()),
+                len(credential_seed),
+                _c_ubyte(admin_puk.encode()),
+                len(admin_puk),
+                _c_ubyte(admin_pin.encode()),
+                len(admin_pin),
+                _c_ubyte(time_admin_pin.encode()),
+                len(time_admin_pin),
+                client_id,
+                int(enable_autopilot),
             )
         )
 
