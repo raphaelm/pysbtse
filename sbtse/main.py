@@ -175,6 +175,18 @@ def factory_reset(ctx):
         w.factory_reset()
 
 
+@main.command(help="Run startup sequence before transactions (e.g. after power cycle)")
+@click.option("--client-id", "-c", prompt=True, type=str, help="Client ID")
+@click.option("--admin-pin", prompt=True, type=T_PIN, help="Admin PIN")
+@click.pass_context
+def startup(ctx, client_id, admin_pin):
+    with _tse_context(ctx) as w:
+        if w.needs_setup():
+            print('TSE not configured, use setup instead!')
+            return
+        w.startup(client_id, admin_pin, autopilot=False)
+
+
 @main.command(help="Run setup procedure for a fresh TSE")
 @click.option("--client-id", "-c", prompt=True, type=str, help="Client ID")
 @click.option("--admin-pin", prompt=True, type=T_PIN, help="Admin PIN")

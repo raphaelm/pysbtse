@@ -180,6 +180,17 @@ class BaseWormContext:
         return bool(_need.value)
 
     @log_execution
+    def startup(self, client_id: str, admin_pin: str, autopilot: bool = True):
+        _guard(
+            _worm.worm_tse_startup(
+                self._ctx,
+                client_id,
+                _c_ubyte(admin_pin.encode()),
+                len(admin_pin),
+                int(autopilot),
+            ))
+
+    @log_execution
     def setup(
         self,
         client_id: str,
